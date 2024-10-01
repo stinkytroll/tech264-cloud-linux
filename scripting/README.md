@@ -1,3 +1,6 @@
+# Content's Table
+
+- [Content's Table](#contents-table)
 - [Scripting vs Programming](#scripting-vs-programming)
   - [Scripting](#scripting)
   - [Programming](#programming)
@@ -9,6 +12,8 @@
     - [Example](#example)
     - [Run the script in the CL](#run-the-script-in-the-cl)
     - [Output](#output)
+  
+  
 
 # Scripting vs Programming
 
