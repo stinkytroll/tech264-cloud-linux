@@ -1,9 +1,14 @@
+# Virtual Machine Network 
+
+![alt text](image.png)
+
 # Steps to Create a Virtual Network and a New SSH Key Pair in Azure
 
 ## 1. Creating a Virtual Network (VNet) in Azure
 
 ### What is a Virtual Network (VNet)?
 A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), databases, and applications to securely communicate with each other, the internet, and other networks.
+
 
 ### Steps to Create a Virtual Network
 
@@ -32,6 +37,8 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
 
 6. **Deployment:**
    - Wait for the VNet deployment to finish. Once deployed, you can manage the VNet through the Azure Portal.
+  
+  ![alt text](image-1.png)
 
 ## 2. Creating a New SSH Key Pair for Azure Virtual Machines
 
