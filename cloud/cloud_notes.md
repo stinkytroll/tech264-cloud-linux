@@ -14,6 +14,8 @@
   - [10. Which cloud provider might be the best? Why?](#10-which-cloud-provider-might-be-the-best-why)
   - [11. What do you usually pay for in the cloud?](#11-what-do-you-usually-pay-for-in-the-cloud)
   - [12. What are the 4 Pillars of DevOps, and how do they link into the Cloud?](#12-what-are-the-4-pillars-of-devops-and-how-do-they-link-into-the-cloud)
+- [Plan to create a Virtual Machine](#plan-to-create-a-virtual-machine)
+- [How to create a virtual machine](#how-to-create-a-virtual-machine)
  
 ## 1. How do we know if something is in the cloud?
 Cloud services are typically accessed over the internet, meaning the data or application isn't hosted locally. If you're accessing resources or apps without needing specific local hardware, it's likely cloud-based. They're also available on demand. 
@@ -59,9 +61,10 @@ Cloud services are typically accessed over the internet, meaning the data or app
 - Cost-effective
 - Access to advanced technologies
 - Less maintenance
- 
+- Guranteed level of service with a pay-back scheme if not achieved
+
 ### Disadvantages:
-- Security risks
+- Security risk since you have no physical control
 - Limited control
 - Ongoing costs
  
@@ -71,7 +74,10 @@ Cloud services are typically accessed over the internet, meaning the data or app
 - **Cloud**: Shifts costs from CapEx to OpEx, making costs more predictable but continuous.
  
 ## 7. Is migrating to the cloud always cheaper?
-While the cloud offers lower upfront costs, long-term costs can be higher due to recurring subscription fees, especially for large-scale operations.
+- While the cloud offers lower upfront costs, long-term costs can be higher due to recurring subscription fees, especially for large-scale operations.
+- AWS has Trusted Advisor which is used to optimise costs.
+- AWS has a pay-as-you-go model.
+
  
 ## 8. Market Share - Cloud Trends:
  
@@ -98,7 +104,7 @@ The best cloud provider depends on your needs:
 ## 11. What do you usually pay for in the cloud?
 - Storage
 - Compute power
-- Data transfer
+- Data transfer (Egress: Out)
 - Additional services like security, databases, and networking
  
 ## 12. What are the 4 Pillars of DevOps, and how do they link into the Cloud?

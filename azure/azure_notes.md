@@ -5,7 +5,16 @@
     - [Steps to Create a Virtual Network](#steps-to-create-a-virtual-network)
   - [2. Creating a New SSH Key Pair for Azure Virtual Machines](#2-creating-a-new-ssh-key-pair-for-azure-virtual-machines)
     - [What is an SSH Key Pair?](#what-is-an-ssh-key-pair)
-    - [Steps to Create an SSH Key Pair (Using Linux/macOS or Windows PowerShell)](#steps-to-create-an-ssh-key-pair-using-linuxmacos-or-windows-powershell)
+    - [Steps to Create an SSH Key Pair (Using GitBash)](#steps-to-create-an-ssh-key-pair-using-gitbash)
+- [Plan to create a Virtual Machine](#plan-to-create-a-virtual-machine)
+- [How to Create a Virtual Machine (VM)](#how-to-create-a-virtual-machine-vm)
+  - [Basics](#basics)
+  - [--\> Disks](#---disks)
+  - [--\> Networking](#---networking)
+  - [--\> Tags](#---tags)
+  - [--\> Review and Create](#---review-and-create)
+- [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
+- [How to Delete a Virtual Machine](#how-to-delete-a-virtual-machine)
 
 
 # Virtual Machine Network Diagram
@@ -96,7 +105,7 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
 ### What is an SSH Key Pair?
 An SSH key pair consists of a public and private key used to authenticate access to virtual machines securely.
 
-### Steps to Create an SSH Key Pair (Using Linux/macOS or Windows PowerShell)
+### Steps to Create an SSH Key Pair (Using GitBash)
 
 1. **Open a Terminal:**
    1. Open GitBash
@@ -131,3 +140,51 @@ cat ~/.ssh/example_key_name.pub
 
 You can then paste this into your SSH key.
 
+# Plan to create a Virtual Machine
+- Virtual Network + Subnet
+- Name
+- Location, effects pricing
+- Size, effects pricing
+- Storage, effects pricing
+- Operating system, could effect pricing
+- SSH key pair
+
+# How to Create a Virtual Machine (VM)
+
+## Basics
+1. **Search** for Virtual Machine on the Azure Portal. Create a new VM.
+2. **Assign** resource group `(tech264)`.
+3. **Name** the VM (e.g tech264-name...)
+4. Set **region** to `(Europe) UK South`.
+5. Change **availability** to "No infrastructure redudancy required".
+6. Change **image** to the OS we want on the disc (Also includes flavour and version of the OS, with stuff installed and ready to run - Basically a snapshot of a system). In our case, select `Ubuntu Pro 18.04 - x64 Gen2`. If it is not visible in the immediate recent, click "See all images" and search for it.
+7. Change **security type** to standard. 
+8. Change **size** to `Standard_Bs1 - 1 vcpu, 1 GiB memory`. Select "see all sizes" if not seen in immediate recent.
+9. Change **username** to to something more secure.
+10. Change SSH public key source to `Use existing key stored in Azure`.
+11. Select **your** Stored key (e.g tech264..).
+12. Select `HTTP (80)` under **select inbound ports**. Both `SHH (22)` and `HTTP (80)` should be selected. You need to set up a certificate to use `HHTPS (443)`.
+
+## --> Disks
+1. Change OS Disk type to `Standard SSD (locally redundant storage)`.
+
+## --> Networking
+1. Change the **virtual network** to your own one, as it will default alphabetically.
+2. Change **subnet** to `public-subnet`.
+3. Enable **Delete public IP and NIC when VM is deleted**. Automates this just in case you forget to do it yourself.
+
+## --> Tags
+1. Select `Owner : (your name)`.
+
+## --> Review and Create
+1. Make sure all your details are correct.
+2. Once you click create, it will deploy until completion. 
+
+# How to Stop Your Virtual Machine
+1. Go to your **resource**.
+2. **Status** should read as "Running". 
+3. Click "Stop".
+4. It will give you a warning, select "yes". The virtual machine will begin stopping. 
+
+# How to Delete a Virtual Machine
+1. Navigate to resource
