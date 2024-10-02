@@ -210,3 +210,9 @@ You can then paste this into your SSH key.
 - `file` : Used to see what the file type of specified file.
 - `cp` : Copies a file.
 - `rm` : Removes a file.
+- `sudo` : Super user command input. 
+  - `sudo apt update -y` : Makes sure the package information is up to date, but doesn't install anything. 
+  - `sudo apt upgrade -y` : **Dangerous.** Installs packages which could break any work that requires particular versions.
+- `cd /` : Changes the current working directory to the root directory.
+- `sudo su` : Switches you to the superuser (root) account.
+  - `exit` : Can be used to leave super user.
