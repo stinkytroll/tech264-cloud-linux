@@ -29,7 +29,7 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
    -  Under **Subnets**, click `+ Add subnet` to create a private subnet for the VNet (e.g., a private subnet `10.0.3.0/24` (256 addresses)).
 
 4. **Configure Security:**
-   - Go to the "Security" tab to enable any specific security features.
+   - Go to the "Security" tab to enable any specific security features (We do not need to write anything in our case).
 
 5. ***Tags:**
    - Name : Owner
@@ -43,27 +43,6 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
    - Wait for the VNet deployment to finish. Once deployed, you can manage the VNet through the Azure Portal.
   
   ![alt text](image-1.png)
-
-  # Planning and creating a Vnet
- 
-**VNet(virtual Network)** -  allows to securely communicate between Azure resources, such as VMs(virtual machines), web apps and databases.
- 
- 
-### Details needed to plan/create a VNet
- 
-1. **Address Space(CIDR Block)**:
-- decide the IP address range the VNet will cover (e.g. 10.0.0.0/16)
- 
- 
-2. **Subnets:** :
-- divide the VNet into subnets            
-- each subnet should have its own IP address range
-  - **public_subset**t(10.0.2.0/24(256 addresses))
-  - **private_subnet**t(10.0.3.0/24(256 addresses))
- 
- 
-3. **Regions:** :
-- choose the Azure region where the Vnet will be created (e.g Europe Uk south)
 
 ## 2. Creating a New SSH Key Pair for Azure Virtual Machines
 

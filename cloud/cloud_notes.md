@@ -22,31 +22,29 @@ Cloud services are typically accessed over the internet, meaning the data or app
 - **On-Prem**: Resources are hosted and managed on the company's own servers.
 - **Cloud**: Resources are hosted on external servers, managed by cloud providers, and accessed via the internet.
  
-| On-Prem | Cloud |
-| ------- | ----- |
-| Requires internal management of hardware and software. | Managed by the cloud provider. |
-| High upfront costs. | Lower initial costs, often subscription-based. |
-| Physical proximity to resources. | Accessible from anywhere with internet access. |
+**On-Prem:**
+- Requires internal management of hardware and software.
+- High upfront costs. 
+- Physical proximity to resources. 
+
+**On Cloud**
+- Managed by the cloud provider.
+- Lower initial costs, often subscription-based.
+- Accessible from anywhere with internet access.
+
  
 ## 3. The 4 Deployment Models of Cloud:
-- **Private Cloud**: Dedicated to a single organization, offering enhanced control and security.
-- **Public Cloud**: Services provided over the internet and shared across multiple users.
-- **Hybrid Cloud**: A mix of private and public clouds, offering flexibility.
-- **Multi-Cloud**: Use of multiple cloud services from different providers.
- 
-| Deployment Model | Description |
-| ---------------- | ----------- |
-| Private Cloud | More secure, but expensive and complex. |
-| Public Cloud | Cost-effective but less control over security. |
-| Hybrid Cloud | Combines the best of both worlds. |
-| Multi-Cloud | Increased redundancy and flexibility. |
+- **Private Cloud**: Dedicated to a single organization, offering enhanced control and security. More secure, but expensive and complex.
+- **Public Cloud**: Services provided over the internet and shared across multiple users. Cost-effective but less control over security.
+- **Hybrid Cloud**: A mix of private and public clouds, offering flexibility. Combines the best of both worlds.
+- **Multi-Cloud**: Use of multiple cloud services from different providers. Increased redundancy and flexibility.
  
 ## 4. Types of Cloud Services:
 - **IaaS (Infrastructure as a Service)**: Provides virtualized computing resources over the internet.
 - **PaaS (Platform as a Service)**: Offers hardware and software tools over the internet, typically for app development.
 - **SaaS (Software as a Service)**: Delivers software applications via the internet, accessible through a browser.
  
-| Service Type | Example | Description |
+| Service **Type** | **Example** | **Description** |
 | ------------ | ------- | ----------- |
 | IaaS | AWS EC2 | Provides virtual machines and storage. |
 | PaaS | Google App Engine | Platform to develop and deploy apps. |
