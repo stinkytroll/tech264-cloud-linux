@@ -1,3 +1,13 @@
+- [Virtual Machine Network](#virtual-machine-network)
+- [Steps to Create a Virtual Network and a New SSH Key Pair in Azure](#steps-to-create-a-virtual-network-and-a-new-ssh-key-pair-in-azure)
+  - [1. Creating a Virtual Network (VNet) in Azure](#1-creating-a-virtual-network-vnet-in-azure)
+    - [What is a Virtual Network (VNet)?](#what-is-a-virtual-network-vnet)
+    - [Steps to Create a Virtual Network](#steps-to-create-a-virtual-network)
+  - [2. Creating a New SSH Key Pair for Azure Virtual Machines](#2-creating-a-new-ssh-key-pair-for-azure-virtual-machines)
+    - [What is an SSH Key Pair?](#what-is-an-ssh-key-pair)
+    - [Steps to Create an SSH Key Pair (Using Linux/macOS or Windows PowerShell)](#steps-to-create-an-ssh-key-pair-using-linuxmacos-or-windows-powershell)
+
+
 # Virtual Machine Network 
 
 ![alt text](image.png)
