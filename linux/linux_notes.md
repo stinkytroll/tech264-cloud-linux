@@ -13,7 +13,7 @@
   - [Here is one line from the ls -l. Work everything you can about permissions on this file or directory.](#here-is-one-line-from-the-ls--l-work-everything-you-can-about-permissions-on-this-file-or-directory)
 - [Managing File Permissions Using Numeric Values](#managing-file-permissions-using-numeric-values)
   - [What numeric values are assigned to each permission?](#what-numeric-values-are-assigned-to-each-permission)
-  - [What can you with the values assign read + write permissions?](#what-can-you-with-the-values-assign-read--write-permissions)
+  - [What value would assign read + write permissions?](#what-value-would-assign-read--write-permissions)
   - [What value would assign read, write and execute permissions?](#what-value-would-assign-read-write-and-execute-permissions)
   - [What value would assign read and execute permissions?](#what-value-would-assign-read-and-execute-permissions)
   - [Often, a file or directory's mode/permissions are represented by 3 numbers. What do you think 644 would mean?](#often-a-file-or-directorys-modepermissions-are-represented-by-3-numbers-what-do-you-think-644-would-mean)
@@ -32,45 +32,117 @@
 
 ## Why is managing file ownership important?
 File ownership determines who can read, modify, or execute a file or directory.
+- revents unauthorized access to sensitive data.
+
+- Ensures that users have the correct level of permissions to perform necessary operations.
+- Helps maintain system stability by restricting critical system files to trusted users like root or administrators.
+- Prevents accidental modifications or deletions by non-privileged users
 
 ## What is the command to view file ownership?
+To view file ownership, you can use the `ls` command with the `-l` option to display detailed information about files, including the owner and group.
 
 ## What permissions are set when a user creates a file or directory? Who does file or directory belong to?
+**For files**: By default, files are created without execute permissions. 
+
+**For directories**: Directories are created with execute permissions to allow navigation. 
+
+By default, when a user creates a file or directory, it belongs to:
+- The **user** who created the file.
+- The **group** to which the user belongs (the user’s primary group).
+
+Permissions can be checked using `umask`. 
 
 ## Why does the owner, by default, not recieve X permissions when they create a file?
 
+When a file is created, it is assumed to be a regular file, which do not need permissiosn to be executed. **Scripts** (so they can be run as programs) and **binary files** (so they can be executed by the system) required execute permissions.
+
+`chmod` can be used to change the permissions if the file is meant to be executed.
+
 ## What command is used to change the owner of a file or directory?
+`chown` (change owner): Can be used to change the owneship of a file or directory.
+
+`sudo chown newowner filename` : Used to change **owner** of a file
+
+`sudo chown newowner:newgroup filename` : Used to change both **owner** and **group**.
 
 # Managing File Permissions
 
 ## Does being the owner of a file mean you have full permissions on that file? Explain.
 
+**No**, being the owner of a file does not automatically mean you have full permissions on the file. File permissions are controlled by three sets of permissions:
+- User (owner).
+- Group.
+- Others (everyone else).
+
+The owner's permissions examples can vary. Ff the owner has read `r` and write `w` permissions but not execute `x`, they can modify the file but cannot execute it as a program.
+
 ## If you give permissions to the User entity, what does this mean?
+When you give permissions to the User entity, you are setting what the owner of that file or directory can do.
+
+- The **user (owner)** is the person who created the file or directory by default, but this can be changed with the chown command.
+- Permissions for the user affect only that specific owner.
 
 ## If you give permissions to the Group entity, what does this mean?
+When you give permissions to the Group entity, you're specifying what the members of that group can do with the file or directory.
+
+- Every file or directory is associated with a **group**. By default, this is the primary group of the **user** who created the file.
+- Members of the **group** can have different permissions from the **owner**.
+- Permissions for the **group** affect all users who belong to that **group**.
 
 ## If you give permissions to the Other entity, what does this mean?
+When you set permissions for the Other entity, you're controlling what all other users who are not part of the file’s owner or group can do.
+
+- These permissions apply to any **user** who doesn't match the file's **owner** or **group**.
+- It's the broadest category and typically has the most restricted permissions for security reasons.
 
 ## You give the following permissions to a file: User permissions are read-only, Group permissions are read and write, Other permissions are read, write and execute. You are logged in as the user which is owner of the file. What permissions will you have on this file? Explain.
 
-## Here is one line from the ls -l. Work everything you can about permissions on this file or directory.
+You would only have have the **owner** permissions, as they take priority over **group** and **other** permissions. This means the **owner** will will **read-only**. 
+
+## Here is one line from the ls -l. Work everything you can about permissions on this file or directory. 
+
+`-rwxr-xr-- 1 tcboony staff  123 Nov 25 18:36 keeprunning.sh`
+
+- `-rwxr-xr--` Represents a regular file `(-)`, followed by the **owner** - permissions `(rwx)`, then the **group** permissions `(r-x)` and lastly **other** permissions `(r--)`. 
+- `1` indicates that there is one link to the file.
+- `tcboony` is the user who owns the file. They have all permissions.
+-`staff` is the group associated with the file. They have read and execute permissions.
+- `123` is the file size in bytes.
+- `Nov 25 18:36` is the last modification date and time of the file.
+- `keeprunning.sh` is the name of the file.
 
 # Managing File Permissions Using Numeric Values
 
 ## What numeric values are assigned to each permission?
-
-## What can you with the values assign read + write permissions?
+The numeric values assigned to each permission are as follows:
+- **Read (r)**: 4
+- **Write (w)**: 2
+- **Execute (x)**: 1
+ 
+## What value would assign read + write permissions?
+To assign **read + write** permissions, you would add the numeric values for read and write:
+- Read (4) + Write (2) = **6**
 
 ## What value would assign read, write and execute permissions?
+To assign **read, write, and execute permissions**, you would add the numeric values for read, write and execute:
+- Read (4) + Write (2) + Execute (1) = **7**
 
 ## What value would assign read and execute permissions?
+To assign **read and execute permissions**, you would add the numeric values for read and execute:
+Read (4) + Execute (1) = **5**
 
 ## Often, a file or directory's mode/permissions are represented by 3 numbers. What do you think 644 would mean?
+Each digit represents the **owner**, **group** and **other**. 644 would mean that the **owner** has **read and write** permissions, while both the **group** and **other** have **read only** permissions.
 
 # Changing File Permissions
 
 ## What command changes file permissions?
+The command used to change file permissions in Linux is `chmod` (change mode).
+
 ## To change permissions on a file what must the end user be? (2 answers)
+- The Owner: The **user** who owns the file can change its permissions.
+- A Super user (Root): A **user** with administrative privileges (typically root) can change permissions on any file.
+
 
 ## Give examples of some different ways/syntaxes to set permissions on a new file (named testfile.txt) to:
 
