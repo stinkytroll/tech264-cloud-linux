@@ -10,7 +10,7 @@
 
 # Virtual Machine Network 
 
-![alt text](image.png)
+![alt text](image-2.png)
 
 # Steps to Create a Virtual Network and a New SSH Key Pair in Azure
 
@@ -63,8 +63,8 @@ An SSH key pair consists of a public and private key used to authenticate access
 
 1. **Open a Terminal:**
    1. Open GitBash
-   2. Use `mkdir .ssh` to create a directory for SSH keys (Once done, doesn't need to be done again) when you're in your home directory.
-   3. If it already exists, you can, `cd -ssh` into it.
+   2. Go to home directory using `cd`.
+   3. Use `mkdir .ssh` to create a directory for SSH keys (Once done, doesn't need to be done again) when you're in your home directory. If it already exists, you can, `cd -ssh` into it.
 
 2. **Generate SSH Key Pair:**
    Use the following command to generate an SSH key pair:
