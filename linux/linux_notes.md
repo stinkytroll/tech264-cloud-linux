@@ -143,7 +143,6 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - The Owner: The **user** who owns the file can change its permissions.
 - A Super user (Root): A **user** with administrative privileges (typically root) can change permissions on any file.
 
-
 ## Give examples of some different ways/syntaxes to set permissions on a new file (named testfile.txt) to:
 
 ### Set User to read, Group to read + write + execute, and Other to read and write only
