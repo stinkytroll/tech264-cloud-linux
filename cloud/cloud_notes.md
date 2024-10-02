@@ -16,7 +16,7 @@
   - [12. What are the 4 Pillars of DevOps, and how do they link into the Cloud?](#12-what-are-the-4-pillars-of-devops-and-how-do-they-link-into-the-cloud)
  
 ## 1. How do we know if something is in the cloud?
-Cloud services are typically accessed over the internet, meaning the data or application isn't hosted locally. If you're accessing resources or apps without needing specific local hardware, it's likely cloud-based.
+Cloud services are typically accessed over the internet, meaning the data or application isn't hosted locally. If you're accessing resources or apps without needing specific local hardware, it's likely cloud-based. They're also available on demand. 
  
 ## 2. Differences between On-Prem and the Cloud?
 - **On-Prem**: Resources are hosted and managed on the company's own servers.
@@ -36,14 +36,16 @@ Cloud services are typically accessed over the internet, meaning the data or app
 ## 3. The 4 Deployment Models of Cloud:
 - **Private Cloud**: Dedicated to a single organization, offering enhanced control and security. More secure, but expensive and complex.
 - **Public Cloud**: Services provided over the internet and shared across multiple users. Cost-effective but less control over security.
-- **Hybrid Cloud**: A mix of private and public clouds, offering flexibility. Combines the best of both worlds.
-- **Multi-Cloud**: Use of multiple cloud services from different providers. Increased redundancy and flexibility.
+- **Hybrid Cloud**: A mix of public and on-prem, allowing companies to maintain sensitive data on premise while leveraging the scalability of the publix cloud for other operations.
+- **Multi-Cloud**: Use of multiple cloud services from different providers. Increased redundancy (meaning having backups when things fail) and flexibility.
  
 ## 4. Types of Cloud Services:
 - **IaaS (Infrastructure as a Service)**: Provides virtualized computing resources over the internet.
 - **PaaS (Platform as a Service)**: Offers hardware and software tools over the internet, typically for app development.
 - **SaaS (Software as a Service)**: Delivers software applications via the internet, accessible through a browser.
- 
+- 
+![Cloud Service Models](image-3.png)
+
 | Service **Type** | **Example** | **Description** |
 | ------------ | ------- | ----------- |
 | IaaS | AWS EC2 | Provides virtual machines and storage. |
