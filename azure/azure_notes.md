@@ -8,13 +8,13 @@
     - [Steps to Create an SSH Key Pair (Using GitBash)](#steps-to-create-an-ssh-key-pair-using-gitbash)
 - [Plan to create a Virtual Machine](#plan-to-create-a-virtual-machine)
 - [How to Create a Virtual Machine (VM)](#how-to-create-a-virtual-machine-vm)
-  - [Basics](#basics)
+  - [--\> Basics](#---basics)
   - [--\> Disks](#---disks)
   - [--\> Networking](#---networking)
   - [--\> Tags](#---tags)
   - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
-- [How to Delete a Virtual Machine](#how-to-delete-a-virtual-machine)
+- [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
 
 
 # Virtual Machine Network Diagram
@@ -151,7 +151,7 @@ You can then paste this into your SSH key.
 
 # How to Create a Virtual Machine (VM)
 
-## Basics
+## --> Basics
 1. **Search** for Virtual Machine on the Azure Portal. Create a new VM.
 2. **Assign** resource group `(tech264)`.
 3. **Name** the VM (e.g tech264-name...)
@@ -186,5 +186,13 @@ You can then paste this into your SSH key.
 3. Click "Stop".
 4. It will give you a warning, select "yes". The virtual machine will begin stopping. 
 
-# How to Delete a Virtual Machine
-1. Navigate to resource
+# Connecting Your Virtual Machine
+1. **Start** your virtual machine.
+2. Navigate to "Connect" under your VM.
+3. Find "Native SSH" and **select** it. A side panel should open. 
+4. Input `~/.ssh/` and your `private key name` into the "Copy and Execute SSH Command" line. This will output a command for us to use in our CL (We are using **GitBash**).
+5. Click the copy button for the code below what was just inputted.
+6. Paste this code into your **GitBash**.
+7. A **warning** will appear once entered into your **GitBash**. Respond with `yes` and then it will permanently save the IP address, meaning we will not be given the warning again.
+8. You can type `exit` to **logout** of the Virtual Machine. 
+
