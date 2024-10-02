@@ -1,4 +1,4 @@
-- [Virtual Machine Network](#virtual-machine-network)
+- [Virtual Machine Network Diagram](#virtual-machine-network-diagram)
 - [Steps to Create a Virtual Network and a New SSH Key Pair in Azure](#steps-to-create-a-virtual-network-and-a-new-ssh-key-pair-in-azure)
   - [1. Creating a Virtual Network (VNet) in Azure](#1-creating-a-virtual-network-vnet-in-azure)
     - [What is a Virtual Network (VNet)?](#what-is-a-virtual-network-vnet)
@@ -8,9 +8,46 @@
     - [Steps to Create an SSH Key Pair (Using Linux/macOS or Windows PowerShell)](#steps-to-create-an-ssh-key-pair-using-linuxmacos-or-windows-powershell)
 
 
-# Virtual Machine Network 
+# Virtual Machine Network Diagram
 
 ![alt text](image-2.png)
+
+**NSG Rule – Allow SSH**
+Allows inbound SSH traffic (port 22) for remote management of the VM.
+
+**Virtual Network (VNet)**
+Provides secure communication between VMs and other resources, acting as a private cloud network.
+
+**Subnet**
+A segment within the VNet for organizing and isolating VMs that can communicate internally.
+
+**Resource Group**
+A container to manage and organize related Azure resources like VMs and storage.
+
+**Disk**
+Storage assigned to the VM, including the OS disk and optional data disks.
+
+**Public IP**
+Makes the VM accessible from the internet via SSH or HTTP.
+
+**NSG Rule – Allow HTTP**
+Allows inbound HTTP traffic (port 80) for web server access.
+Region
+
+The geographic location where the VM and resources are hosted.
+
+**SSH Key**
+A secure authentication method for connecting to the VM, without needing a password.
+
+**Network Interface Controller (NIC)**
+Connects the VM to the VNet for internal and external network communication.
+
+**Virtual Machine (VM)**
+The core component that runs your applications, simulating a physical computer.
+
+**Network Security Group (NSG)**
+A virtual firewall that controls inbound and outbound traffic to the VM with security rules.
+
 
 # Steps to Create a Virtual Network and a New SSH Key Pair in Azure
 

@@ -79,8 +79,7 @@ While the cloud offers lower upfront costs, long-term costs can be higher due to
 3. Google Cloud Platform
  
 Market share breakdown:
-![Market Share](images/AWS-s-Azure-vs-Google-Market-sale-1-1024x498.png)
- 
+![market breakdown azure vs google vs microsoft](image.png)
  
 ## 9. What are the 3 largest Cloud providers known for?
  
