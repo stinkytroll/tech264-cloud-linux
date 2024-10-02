@@ -15,6 +15,7 @@
   - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
 - [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
+- [Some Linux Commands](#some-linux-commands)
 
 
 # Virtual Machine Network Diagram
@@ -196,3 +197,16 @@ You can then paste this into your SSH key.
 7. A **warning** will appear once entered into your **GitBash**. Respond with `yes` and then it will permanently save the IP address, meaning we will not be given the warning again.
 8. You can type `exit` to **logout** of the Virtual Machine. 
 
+# Some Linux Commands
+- `uname` : Displays system information.
+- `whoami` : Tells you who is logged in.
+- `ps` : Displays current processes.
+- `history` : Gives youl log of commands used.
+  - `history -c` : Clears the history in memory for the current session.
+  - `history -w` : Writes the cleared history to the .bash_history file, which effectively empties the history file.
+- `ls -al` : Shows all files, as well the long format listing for more detailed information on each file / directory. A directory will appear blue.
+- `curl` : Used to transfer data from or to a server using various network protocols, such as HTTP, HTTPS, FTP, and others. Very powerful tool.
+- `wget` : Used to download files from the web.
+- `file` : Used to see what the file type of specified file.
+- `cp` : Copies a file.
+- `rm` : Removes a file.
