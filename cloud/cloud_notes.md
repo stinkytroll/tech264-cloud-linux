@@ -14,8 +14,6 @@
   - [10. Which cloud provider might be the best? Why?](#10-which-cloud-provider-might-be-the-best-why)
   - [11. What do you usually pay for in the cloud?](#11-what-do-you-usually-pay-for-in-the-cloud)
   - [12. What are the 4 Pillars of DevOps, and how do they link into the Cloud?](#12-what-are-the-4-pillars-of-devops-and-how-do-they-link-into-the-cloud)
-- [Plan to create a Virtual Machine](#plan-to-create-a-virtual-machine)
-- [How to create a virtual machine](#how-to-create-a-virtual-machine)
  
 ## 1. How do we know if something is in the cloud?
 Cloud services are typically accessed over the internet, meaning the data or application isn't hosted locally. If you're accessing resources or apps without needing specific local hardware, it's likely cloud-based. They're also available on demand. 
@@ -46,7 +44,7 @@ Cloud services are typically accessed over the internet, meaning the data or app
 - **PaaS (Platform as a Service)**: Offers hardware and software tools over the internet, typically for app development.
 - **SaaS (Software as a Service)**: Delivers software applications via the internet, accessible through a browser.
 - 
-![Cloud Service Models](image-3.png)
+![alt text](cloudinfservicemarket.png)
 
 | Service **Type** | **Example** | **Description** |
 | ------------ | ------- | ----------- |

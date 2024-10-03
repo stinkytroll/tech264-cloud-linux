@@ -30,7 +30,7 @@
 - **Regions**: Azure is divided into geographic **regions**, each containing one or more **data centers**. These **regions** are designed to provide** redundancy** and **high availability**, enabling **users** to choose a location closest to their users for optimal performance.
 - **Availability Zones**: These are separate physical locations within a **region**, designed to be **isolated from failures** in other zones. Each zone has independent power, cooling, and networking, which increases resilience against outages.
 
-![Availability zones and regions](image.png)
+![alt text](availabilityzonesvsregions.png)
 
 ## How is Azure structured/organised?
 - **Resource Groups**: Logical containers for Azure resources (VMs, databases, etc.) to manage permissions and policies collectively.
@@ -90,7 +90,7 @@ The Azure Pricing Calculator helps users estimate the cost of using Azure servic
 
 # Virtual Machine Network Diagram
 
-![alt text](image-2.png)
+![alt text](vmdiagram.png)
 
 **NSG Rule – Allow SSH**
 Allows inbound SSH traffic (port 22) for remote management of the VM.
@@ -169,7 +169,7 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
 7. **Deployment:**
    - Wait for the VNet deployment to finish. Once deployed, you can manage the VNet through the Azure Portal.
   
-  ![alt text](image-1.png)
+![alt text](subsetdiagram.png)
 
 ## 2. Creating a New SSH Key Pair for Azure Virtual Machines
 
