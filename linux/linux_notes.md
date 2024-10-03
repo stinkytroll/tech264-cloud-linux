@@ -27,6 +27,7 @@
     - [Use numeric values to give read + write access to User, read access to Group, and no access to Other.](#use-numeric-values-to-give-read--write-access-to-user-read-access-to-group-and-no-access-to-other)
 - [Some Linux Commands](#some-linux-commands)
 - [How to Write a Bash Script: provision nginx](#how-to-write-a-bash-script-provision-nginx)
+- [What is an environment variable and how do we make one?](#what-is-an-environment-variable-and-how-do-we-make-one)
 
 
 # File Ownership With Linux
@@ -191,7 +192,7 @@ The command used to change file permissions in Linux is `chmod` (change mode).
  
 1. use `nano provision.sh` to begin creating your `provision.sh` file, which will host the script.
 2. In the nano interface, write the following lines (be sure to write comments using `#` to help with understanding):
-   1. `#!/bin/bash`, which i called "**shebang**". This specifies which interpreter should be used to execute the script - so this tells it to use the **Bash** script.
+   1. `#!/bin/bash`, which is called "**shebang**". This specifies which interpreter should be used to execute the script - so this tells it to use the **Bash** script.
    2. `sudo apt update -y`
    3. `sudo apt upgrade -y`
    4. `sudo apt install -y nginx`
@@ -200,3 +201,12 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 3. Save the script by clicking `CTRL+S`, then exit the script by clicking `CTRL+X` to return back to your regular linux CL.
 4. Since the default **permissions** do not allow you to execute the script, use `chmod +x provision.sh` to add **execution** **permissions** to the file.
 5. Run the script using `./provision.sh`.
+
+# What is an environment variable and how do we make one?
+
+An **environment variable** is a dynamic **variable** stored in a process environment. It is used to **pass** configuration information and settings to processes running in the system. These **variables** can influence the behavior of software and system components by providing information such as paths, user preferences, and system settings.
+- To view these, we can use the command `printenv`. 
+- We can view a certain environment variable by using `printenv VARIABLENAME`. 
+- To set a **variable**, we can use `VARIABLENAME=data`. This is a **shell variable**. To ensure this worked, we could use `echo $VARIABLENAME`, which would then output the `data` value. **Note** that this is **NOT** the same as an **enviornment variable**.
+- To set an **environment variable**, we can use `export VARIABLENAME=data`, Which would then display it if we used `printenv MYNAME`. If we were to log out, the created **environment variable** would disappear as it is not **persistent**.
+- If we were to set our **environment variable** inside of the hidden `.bashrc`, it would be visible to the user (admin) across sessions, making it **persistent**. **Note** that `.bashrc` is unique to the user. We can do this by using `nano .bashrc` and writing `export VARIABLENAME=data` in the file.
