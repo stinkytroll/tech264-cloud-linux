@@ -26,6 +26,7 @@
     - [Take write permissions away from Group](#take-write-permissions-away-from-group)
     - [Use numeric values to give read + write access to User, read access to Group, and no access to Other.](#use-numeric-values-to-give-read--write-access-to-user-read-access-to-group-and-no-access-to-other)
 - [Some Linux Commands](#some-linux-commands)
+- [How to Write a Bash Script: provision nginx](#how-to-write-a-bash-script-provision-nginx)
 
 
 # File Ownership With Linux
@@ -158,6 +159,15 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `chmod 740 testfile.txt`
 
 # Some Linux Commands
+- `touch` : Creates a new empty file or updates the timestamp of an existing file.
+- `mv` : Moves or renames files and directories.
+- `grep` : Searches for a pattern within files.
+- `find` : Searches for files and directories in a directory hierarchy.
+- `head` : Displays the first 10 lines of a file (or specified number of lines).
+- `tail` : Displays the last 10 lines of a file.
+- `cat` : Used to concatenate and display the contents of files.
+- `nano` : A simple, user-friendly text editor used in the terminal.
+- `tree` : Used to display the directory structure of a path in a tree-like format.
 - `uname` : Displays system information.
 - `whoami` : Tells you who is logged in.
 - `ps` : Displays current processes.
@@ -177,3 +187,16 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `sudo su` : Switches you to the superuser (root) account.
   - `exit` : Can be used to leave super user.
 
+# How to Write a Bash Script: provision nginx
+ 
+1. use `nano provision.sh` to begin creating your `provision.sh` file, which will host the script.
+2. In the nano interface, write the following lines (be sure to write comments using `#` to help with understanding):
+   1. `#!/bin/bash`, which i called "**shebang**". This specifies which interpreter should be used to execute the script - so this tells it to use the **Bash** script.
+   2. `sudo apt update -y`
+   3. `sudo apt upgrade -y`
+   4. `sudo apt install -y nginx`
+   5. `sudo systemctl restart nginx`
+   6. `sudo systemctl enable nginx`
+3. Save the script by clicking `CTRL+S`, then exit the script by clicking `CTRL+X` to return back to your regular linux CL.
+4. Since the default **permissions** do not allow you to execute the script, use `chmod +x provision.sh` to add **execution** **permissions** to the file.
+5. Run the script using `./provision.sh`.
