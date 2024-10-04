@@ -22,6 +22,7 @@
   - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
 - [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
+- [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 
 # The basics of Azure
 
@@ -266,3 +267,19 @@ You can then paste this into your SSH key.
 6. Paste this code into your **GitBash**.
 7. A **warning** will appear once entered into your **GitBash**. Respond with `yes` and then it will permanently save the IP address, meaning we will not be given the warning again.
 8. You can type `exit` to **logout** of the Virtual Machine. 
+
+# Deleting Your Virtual Machine
+1. Navigate to overview.
+2. Find your resource group.
+3. Filter your name. You will see multiple items appear.
+4. Tick `resourcegroupname-name-vmname`
+5. Tick `resourcegroupname-vmname-ip`
+6. Tick `resourcegroupname-vmname-nsg`
+7. Tick `resourcegroupname-name-networkinterface`
+8. Tick `resourcegroupname-name-Disk`
+9. Locate **delete**. **AVOID** clicking **delete** for the **resource group**.
+10. Tick "Apply force delete" just to be safe.
+11. Enter "delete" in the input box and click **delete**.
+12. Select **delete** once more to confirm **deletion**.
+
+We leave the Virtual Network and SSH Key as they can be reused.
