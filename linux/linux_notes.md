@@ -185,10 +185,11 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `rm` : Removes a file.
 - `sudo` : Super user command input. 
   - `sudo apt update -y` : Makes sure the package information is up to date, but doesn't install anything. 
-  - `sudo apt upgrade -y` : **Dangerous.** Installs packages which could break any work that requires particular versions.
+  - `sudo apt upgrade -y` : **Dangerous.** Installs packages which could break any work that requires particular versions. Should only be used at the start of a VM. 
 - `cd /` : Changes the current working directory to the root directory.
 - `sudo su` : Switches you to the superuser (root) account.
   - `exit` : Can be used to leave super user.
+  - `sudo DEBIAN_FRONTEND=noninteractive (then rest of command)` : Helps avoid user prompting.
 
 # How to Write a Bash Script: provision.sh
  
@@ -203,6 +204,22 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 3. Save the script by clicking `CTRL+S`, then exit the script by clicking `CTRL+X` to return back to your regular linux CL.
 4. Since the default **permissions** do not allow you to execute the script, use `chmod +x provision.sh` to add **execution** **permissions** to the file.
 5. Run the script using `./provision.sh`.
+
+```
+#!/bin/bash
+
+# Check for updates
+sudo apt update -y
+
+# Upgrades those checks
+sudo apt upgrade -y
+
+# Install nginx
+sudo apt install -y nginx
+
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+```
 
 # What is an environment variable and how do we make one?
 

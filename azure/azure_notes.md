@@ -22,6 +22,7 @@
   - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
 - [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
+- [The first to commands you run when you first start your VM](#the-first-to-commands-you-run-when-you-first-start-your-vm)
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 
 # The basics of Azure
@@ -229,7 +230,7 @@ You can then paste this into your SSH key.
 3. **Name** the VM (e.g tech264-name...)
 4. Set **region** to `(Europe) UK South`.
 5. Change **availability** to "No infrastructure redudancy required".
-6. Change **image** to the OS we want on the disc (Also includes flavour and version of the OS, with stuff installed and ready to run - Basically a snapshot of a system). In our case, select `Ubuntu Pro 18.04 - x64 Gen2`. If it is not visible in the immediate recent, click "See all images" and search for it.
+6. Change **image** to the OS we want on the disc (Also includes flavour and version of the OS, with stuff installed and ready to run - Basically a snapshot of a system). In our case, select `Ubuntu Pro 22.04 - x64 Gen2`. If it is not visible in the immediate recent, click "See all images" and search for it.
 7. Change **security type** to standard. 
 8. Change **size** to `Standard_Bs1 - 1 vcpu, 1 GiB memory`. Select "see all sizes" if not seen in immediate recent.
 9. Change **username** to to something more secure.
@@ -267,6 +268,10 @@ You can then paste this into your SSH key.
 6. Paste this code into your **GitBash**.
 7. A **warning** will appear once entered into your **GitBash**. Respond with `yes` and then it will permanently save the IP address, meaning we will not be given the warning again.
 8. You can type `exit` to **logout** of the Virtual Machine. 
+
+# The first to commands you run when you first start your VM
+1. `sudo apt update -y`
+2. `sudo apt upgrade -y`
 
 # Deleting Your Virtual Machine
 1. Navigate to overview.
