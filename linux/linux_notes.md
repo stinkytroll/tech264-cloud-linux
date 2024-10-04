@@ -77,12 +77,12 @@ When a file is created, it is assumed to be a regular file, which do not need pe
 - Group.
 - Others (everyone else).
 
-The owner's permissions examples can vary. Ff the owner has read `r` and write `w` permissions but not execute `x`, they can modify the file but cannot execute it as a program.
+The owner's permissions examples can vary. If the owner has read `r` and write `w` permissions but not execute `x`, they can modify the file but cannot execute it as a program.
 
 ## If you give permissions to the User entity, what does this mean?
 When you give permissions to the User entity, you are setting what the owner of that file or directory can do.
 
-- The **user (owner)** is the person who created the file or directory by default, but this can be changed with the chown command.
+- The **user (owner)** is the person who created the file or directory by default, but this can be changed with the `chown` (change owner) command.
 - Permissions for the user affect only that specific owner.
 
 ## If you give permissions to the Group entity, what does this mean?
@@ -109,7 +109,7 @@ You would only have have the **owner** permissions, as they take priority over *
 - `-rwxr-xr--` Represents a regular file `(-)`, followed by the **owner** - permissions `(rwx)`, then the **group** permissions `(r-x)` and lastly **other** permissions `(r--)`. 
 - `1` indicates that there is one link to the file.
 - `tcboony` is the user who owns the file. They have all permissions.
--`staff` is the group associated with the file. They have read and execute permissions.
+- `staff` is the group associated with the file. They have read and execute permissions.
 - `123` is the file size in bytes.
 - `Nov 25 18:36` is the last modification date and time of the file.
 - `keeprunning.sh` is the name of the file.
@@ -121,6 +121,7 @@ The numeric values assigned to each permission are as follows:
 - **Read (r)**: 4
 - **Write (w)**: 2
 - **Execute (x)**: 1
+- **No permissions**: 0
  
 ## What value would assign read + write permissions?
 To assign **read + write** permissions, you would add the numeric values for read and write:
@@ -158,7 +159,7 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `chmod g-w testfile.txt`
 
 ### Use numeric values to give read + write access to User, read access to Group, and no access to Other.
-- `chmod 740 testfile.txt`
+- `chmod 640 testfile.txt`
 
 # Some Linux Commands
 - `touch` : Creates a new empty file or updates the timestamp of an existing file.
@@ -207,6 +208,8 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 
 An **environment variable** is a dynamic **variable** stored in a process environment. It is used to **pass** configuration information and settings to processes running in the system. These **variables** can influence the behavior of software and system components by providing information such as paths, user preferences, and system settings.
 
+We create them so they can be used globally because we want a particular tool or piece of software that will need to use the environment variable we set. 
+
 - To view these, we can use the command `printenv`. 
 - We can view a certain environment variable by using `printenv VARIABLENAME`. 
 - To set a **variable**, we can use `VARIABLENAME=data`. This is a **shell variable**. To ensure this worked, we could use `echo $VARIABLENAME`, which would then output the `data` value. **Note** that this is **NOT** the same as an **enviornment variable**.
@@ -221,3 +224,7 @@ An **environment variable** is a dynamic **variable** stored in a process enviro
 - `sleep 5000 &` (this will give you an Process ID output) to tick in the background and not engage the terminal - To stop this `kill -1 <PID>` (`PID`: Process ID) (64 kill signals and -1 is the lightest).
 - `kill <PID>` can be used on its own and is the same as `-15` (default - terminate).
 - `kill -9 <PID>` is for brute force kill but this can leave zombie instances (instances still running in the memory with no parent process that can manage it and then needs to be manually killed).
+
+You **must** be careful not to `kill` important processes, such as `init` as it can cause system crashes. 
+
+You **must** also avoid not to `kill` parents of groups because you can be left with **zombie children / processes** - processes that continue to occupy a slot in the process table. 
