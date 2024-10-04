@@ -22,7 +22,8 @@
   - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
 - [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
-- [The first to commands you run when you first start your VM](#the-first-to-commands-you-run-when-you-first-start-your-vm)
+- [How to add a port](#how-to-add-a-port)
+- [The first two commands you run when you first start your VM](#the-first-two-commands-you-run-when-you-first-start-your-vm)
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 
 # The basics of Azure
@@ -269,9 +270,16 @@ You can then paste this into your SSH key.
 7. A **warning** will appear once entered into your **GitBash**. Respond with `yes` and then it will permanently save the IP address, meaning we will not be given the warning again.
 8. You can type `exit` to **logout** of the Virtual Machine. 
 
-# The first to commands you run when you first start your VM
+# How to add a port
+1. Navigate to your VM's **network settings**.
+2. Open up **Settings** and click **inbound security rules**.
+3. Change the **destination port** to `3000`.
+4. Change protocol to **TCP**.
+5. Change the priority. The **lower** the priority, the **higher** the priority. 
+
+# The first two commands you run when you first start your VM
 1. `sudo apt update -y`
-2. `sudo apt upgrade -y`
+2. `sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y`
 
 # Deleting Your Virtual Machine
 1. Navigate to overview.

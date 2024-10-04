@@ -29,6 +29,7 @@
 - [How to Write a Bash Script: provision.sh](#how-to-write-a-bash-script-provisionsh)
 - [What is an environment variable and how do we make one?](#what-is-an-environment-variable-and-how-do-we-make-one)
 - [Process Commands](#process-commands)
+- [SCP command and how it works](#scp-command-and-how-it-works)
 
 
 # File Ownership With Linux
@@ -245,3 +246,28 @@ We create them so they can be used globally because we want a particular tool or
 You **must** be careful not to `kill` important processes, such as `init` as it can cause system crashes. 
 
 You **must** also avoid not to `kill` parents of groups because you can be left with **zombie children / processes** - processes that continue to occupy a slot in the process table. 
+
+# SCP command and how it works
+
+`scp -i /path/to/your/private_key -r /path/to/local/directory username@remote_ip:/path/to/remote/destination/`
+
+`scp` :
+- This is the command used to securely copy files or directories between a local machine and a remote machine over SSH.
+
+`-i ~/path/to/your/private_key` :
+- `-i` : This option specifies the identity file (private key) to use for authentication.
+- `~/path/to/your/private_key` : This is the path to your private SSH key used to authenticate with the remote server. The ~ represents the home directory of the current user.
+
+`-r` : 
+- This option indicates that you want to copy directories recursively. It allows you to copy all files and subdirectories within the specified directory.
+
+`"/path/to/local/directory"` : 
+- This is the source path of the directory you want to copy from your local machine. 
+- The quotes are used to ensure that the path is treated as a single argument, which is especially useful if there are spaces in the path.
+
+`username@remote_ip`:
+- `username` : This is the username you will use to log in to the remote server.
+- `remote_ip` : This is the IP address of the remote server (your VM).
+
+`:/path/to/remote/destination/` :
+- Replace /path/to/remote/destination/ with the path where you want to copy the files on the remote server.
