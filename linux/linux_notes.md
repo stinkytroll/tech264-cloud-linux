@@ -26,7 +26,7 @@
     - [Take write permissions away from Group](#take-write-permissions-away-from-group)
     - [Use numeric values to give read + write access to User, read access to Group, and no access to Other.](#use-numeric-values-to-give-read--write-access-to-user-read-access-to-group-and-no-access-to-other)
 - [Some Linux Commands](#some-linux-commands)
-- [How to Write a Bash Script: provision nginx](#how-to-write-a-bash-script-provision-nginx)
+- [How to Write a Bash Script: provision.sh](#how-to-write-a-bash-script-provisionsh)
 - [What is an environment variable and how do we make one?](#what-is-an-environment-variable-and-how-do-we-make-one)
 - [Process Commands](#process-commands)
 
@@ -190,7 +190,7 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `sudo su` : Switches you to the superuser (root) account.
   - `exit` : Can be used to leave super user.
 
-# How to Write a Bash Script: provision nginx
+# How to Write a Bash Script: provision.sh
  
 1. use `nano provision.sh` to begin creating your `provision.sh` file, which will host the script.
 2. In the nano interface, write the following lines (be sure to write comments using `#` to help with understanding):
