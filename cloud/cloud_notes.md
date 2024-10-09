@@ -43,8 +43,8 @@ Cloud services are typically accessed over the internet, meaning the data or app
 - **IaaS (Infrastructure as a Service)**: Provides virtualized computing resources over the internet.
 - **PaaS (Platform as a Service)**: Offers hardware and software tools over the internet, typically for app development.
 - **SaaS (Software as a Service)**: Delivers software applications via the internet, accessible through a browser.
-- 
-![alt text](cloudinfservicemarket.png)
+  
+![alt text](iaaspaassaasdiagram.png)
 
 | Service **Type** | **Example** | **Description** |
 | ------------ | ------- | ----------- |
@@ -85,7 +85,7 @@ Cloud services are typically accessed over the internet, meaning the data or app
 3. Google Cloud Platform
  
 Market share breakdown:
-![market breakdown azure vs google vs microsoft](image.png)
+![alt text](cloudinfservicemarket.png)
  
 ## 9. What are the 3 largest Cloud providers known for?
  

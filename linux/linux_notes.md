@@ -30,6 +30,10 @@
 - [What is an environment variable and how do we make one?](#what-is-an-environment-variable-and-how-do-we-make-one)
 - [Process Commands](#process-commands)
 - [SCP command and how it works](#scp-command-and-how-it-works)
+- [Making a Database in Azure - MongoDB](#making-a-database-in-azure---mongodb)
+- [To connect our DB to our app...](#to-connect-our-db-to-our-app)
+- [DB Script Task: Error Fixing](#db-script-task-error-fixing)
+- [Reverse Proxy](#reverse-proxy)
 
 
 # File Ownership With Linux
@@ -168,7 +172,7 @@ The command used to change file permissions in Linux is `chmod` (change mode).
 - `grep` : Searches for a pattern within files.
 - `find` : Searches for files and directories in a directory hierarchy.
 - `head` : Displays the first 10 lines of a file (or specified number of lines).
-- `tail` : Displays the last 10 lines of a file.
+- `tail` : Displays the last 10 lines of a file (or specified number of lines)Give.
 - `cat` : Used to concatenate and display the contents of files.
 - `nano` : A simple, user-friendly text editor used in the terminal.
 - `tree` : Used to display the directory structure of a path in a tree-like format.
@@ -271,3 +275,181 @@ You **must** also avoid not to `kill` parents of groups because you can be left 
 
 `:/path/to/remote/destination/` :
 - Replace /path/to/remote/destination/ with the path where you want to copy the files on the remote server.
+
+# Making a Database in Azure - MongoDB
+
+`sudo apt-get install gnupg curl` :
+- `gnupg` : This is the GNU Privacy Guard, a tool for encrypting files and managing keys. It's often used for securely managing software repositories, verifying signatures, and other cryptographic functions.
+
+1. Download PGP:
+```
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+   --dearmor
+```
+This command downloads the PGP (Pretty Good Privacy) public key for MongoDB version 7.0 and converts it to a .gpg file format using gpg. The resulting key is then stored in /usr/share/keyrings/ for use in authenticating MongoDB packages during installation. It ensures the packages are coming from a trusted source.
+
+2. Register MongoDB to the system:
+```
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list`
+```
+This command registers the MongoDB 7.0 repository to your system, ensuring that MongoDB packages will be fetched from the official source and verified with the correct GPG key during installation.
+
+3. Run update:
+```
+sudo DEBIAN_FRONTEND=noninteractive apt update -y
+```
+Running sudo apt update is necessary to update the package lists from all configured repositories.
+
+4. Install MongoDB components:
+```
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mongodb-org=7.0.6 mongodb-org-database=7.0.6 mongodb-org-server=7.0.6 mongodb-mongosh=2.1.5 mongodb-org-mongos=7.0.6 mongodb-org-tools=7.0.6
+```
+This command installs specific versions of MongoDB components (version 7.0.6 for MongoDB and 2.1.5 for the MongoDB shell) in a non-interactive mode.
+
+5. Status check:
+```
+sudo systemctl status mongod
+```
+Check the status of mongod. It will not be active. 
+
+6. Start up:
+```
+sudo systemctl start mongod
+```
+Starts mongod. If you then re-run status, it will read as active.
+
+7. Change bindIp:
+```
+sudo nano /etc/mongo.conf
+```
+Nanos into the mongo configuration file and locate `bindIp`. Replace whatever is there with `0.0.0.0`. Allows connections from any IP. If not changed, it's accessible by only the local host.
+
+8. Restart: 
+```
+sudo systemctl restart mongod
+```
+This applies the changes we made in the config file.
+
+9. Check if it's enabled:
+```
+sudo systemctl is-enabled mongod
+```
+It should read as disabled, so we will enable it.
+
+10. Enable it:
+```
+sudo systemctl enable mongod
+```
+This will enable MongoDB, which then should be enabled on our VMs whenever we boot it up.
+
+# To connect our DB to our app...
+
+1. Open a new GitBash window and CD into app directory.
+```
+export DB_HOST=mongodb://IP:PORT/posts
+```
+This will connect via our VMs private IP. 
+
+2. Set the environment variable.
+```
+printenv DB_HOST
+```
+
+3. Install 
+```
+npm install
+```
+
+4. Start
+
+```
+npm start
+```
+
+We can then access the app page via the IP in the **Connect** tab of Azure.
+
+# DB Script Task: Error Fixing
+
+```
+#!/bin/bash
+
+echo "Check for updates..."
+sudo apt update -y
+echo "Check complete."
+
+echo "Check for upgrades..."
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+echo "Upgrades complete."
+
+echo "Install gnupg..."
+sudo apt-get install gnupg curl
+echo "gnupg installed."
+
+echo "Download PGP"
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+   --dearmor
+echo "PGP downloaded."
+
+echo  "Register MongoDB to system..."
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.g>
+echo "Register complete."
+
+echo "Run update..."
+sudo DEBIAN_FRONTEND=noninteractive apt update -y
+echo "Update complete."
+
+echo "Install MongoDB components..."
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mongodb-org=7.0.6 mongod>
+echo "MongoDB components downloaded."
+
+echo "Start MongoDB..."
+sudo systemctl start mongod
+echo "MongoDB started."
+
+echo "Set env variable to new BindIp value..."
+NEW_BIND_IP="0.0.0.0"
+echo "Variable set."
+
+echo "Search for line with BindIp, then replace with new IP"
+sudo sed -i "s/^bindIp: .*/bindIp: $NEW_BIND_IP/" /etc/mongod.conf
+echo "Replacement complete."
+
+echo "Restart to apply changes..."
+sudo systemctl restart mongod
+echo "Changes applied."
+
+echo "Enable MongoDB"
+sudo systemctl enable mongod
+echo "MongoDB enabled."
+
+echo "Connect via our VMs via IP."
+export DB_HOST=mongodb://172.166.196.136:3000/posts
+
+echo "Connection complete."
+
+echo "Set env variable"
+printenv DB_HOST
+echo "env variable set."
+
+echo "NPM install and start"
+npm install
+npm start
+echo "Start complete."
+
+```
+
+# Reverse Proxy
+Route client requests to one or more backend servers, allowing you to expose it on a public IP and port. Hides the port which is better for security.
+
+1. We go to the `/etc/nginx/sites-available/` by using sudo nano, as we do not have permissions to write it without super user.
+
+2. Location this:
+```
+    location / {
+        proxy_pass http://localhost:3000;  # Ensure this is the correct port
+```
+After locating location (har har), we replace what's inside with this line. Redirects to the local lost, which is the machine - this has the app on it.
+
+2. Then we use `sudo systemctl restart nginx` to apply these changes.
