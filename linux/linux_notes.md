@@ -34,6 +34,22 @@
 - [To connect our DB to our app...](#to-connect-our-db-to-our-app)
 - [DB Script Task: Error Fixing](#db-script-task-error-fixing)
 - [Reverse Proxy](#reverse-proxy)
+- [How many services can use a port?](#how-many-services-can-use-a-port)
+  - [What error do you get when you try to run another instance of the Sparta app? Take a screenshot of it + add to your documentation.](#what-error-do-you-get-when-you-try-to-run-another-instance-of-the-sparta-app-take-a-screenshot-of-it--add-to-your-documentation)
+  - [How to fix it - document how to fix it (i.e. re-run the app)](#how-to-fix-it---document-how-to-fix-it-ie-re-run-the-app)
+  - [Find out the Linux command which allows you to find out the process using port 3000](#find-out-the-linux-command-which-allows-you-to-find-out-the-process-using-port-3000)
+- [Run Sparta app in the background](#run-sparta-app-in-the-background)
+  - [Work out ways to both run, stop and re-start the app in the background (besides using the "\&" at the end of the command):](#work-out-ways-to-both-run-stop-and-re-start-the-app-in-the-background-besides-using-the--at-the-end-of-the-command)
+    - [One way should use pm2](#one-way-should-use-pm2)
+    - [If time: One other way (can you find another package manager do it like pm2?)](#if-time-one-other-way-can-you-find-another-package-manager-do-it-like-pm2)
+    - [You should have already used "\&" at the end the command to run the app in the background - document the issue with using this method when it comes to stopping/re-starting the app](#you-should-have-already-used--at-the-end-the-command-to-run-the-app-in-the-background---document-the-issue-with-using-this-method-when-it-comes-to-stoppingre-starting-the-app)
+    - [Document the methods you got working](#document-the-methods-you-got-working)
+    - [Check the app is working in your browser at the IP address of the VM with :3000 appended to the end (or without port 3000 in the URL if your reverse proxy is running).](#check-the-app-is-working-in-your-browser-at-the-ip-address-of-the-vm-with-3000-appended-to-the-end-or-without-port-3000-in-the-url-if-your-reverse-proxy-is-running)
+- [Automate configuration of nginx reverse proxy](#automate-configuration-of-nginx-reverse-proxy)
+    - [Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.](#research-how-setup-the-reverse-proxy-with-a-single-bash-command-or-as-few-commands-as-possible-so-that-it-can-be-used-for-automating-the-process-later-in-a-bash-script-hint-research-linux-commands-that-can-be-used-to-replace-lines-or-strings-within-a-text-file)
+    - [Test your command manually (i.e. SSH into your app VM)](#test-your-command-manually-ie-ssh-into-your-app-vm)
+    - [Add the reverse proxy commands to your app provision script.](#add-the-reverse-proxy-commands-to-your-app-provision-script)
+    - [Test your provision script works to setup the reverse proxy by running the script manually (i.e. SSH into your app VM to run the script)](#test-your-provision-script-works-to-setup-the-reverse-proxy-by-running-the-script-manually-ie-ssh-into-your-app-vm-to-run-the-script)
 
 
 # File Ownership With Linux
@@ -443,7 +459,7 @@ echo "Start complete."
 # Reverse Proxy
 Route client requests to one or more backend servers, allowing you to expose it on a public IP and port. Hides the port which is better for security.
 
-1. We go to the `/etc/nginx/sites-available/` by using sudo nano, as we do not have permissions to write it without super user.
+1. We go to the `nginx.conf` by using `sudo nano /etc/nginx/sites-available/nginx.conf`, as we do not have permissions to edit it without super user.`
 
 2. Location this:
 ```
@@ -452,4 +468,61 @@ Route client requests to one or more backend servers, allowing you to expose it 
 ```
 After locating location (har har), we replace what's inside with this line. Redirects to the local lost, which is the machine - this has the app on it.
 
-2. Then we use `sudo systemctl restart nginx` to apply these changes.
+3. Then we use `sudo systemctl restart nginx` to apply these changes.
+
+# How many services can use a port?
+## What error do you get when you try to run another instance of the Sparta app? Take a screenshot of it + add to your documentation.
+
+![alt text](image.png)
+
+You get the error because you are trying to get a second app instance to use port 3000 but it's already in use by the first app instance.
+
+## How to fix it - document how to fix it (i.e. re-run the app)
+We could locate the port and possibly kill it in order to free up the port. 
+
+## Find out the Linux command which allows you to find out the process using port 3000
+We can use the command `lsof -i :3000` to find the process using **port 3000**.
+`lsof` stands for **L**i**s**t **O**pen **F**iles. the `-i` is the **Network Connections Filter**. This flag tells `lsof` to list related files to network connections. We then specify `:3000` to search for what process is using it.
+
+![alt text](image-1.png)
+
+# Run Sparta app in the background
+
+## Work out ways to both run, stop and re-start the app in the background (besides using the "&" at the end of the command):
+
+
+### One way should use pm2
+`pm2` : A production process manager that allows you to run your apps in the background, keep them alive (restart automatically if they crash), monitor performance, and handle logs. 
+
+`pm2 start npm -- start` : Tells PM2 to start a new process using the npm command to execute the start script defined in your package.json. It launches your Node.js application in the background
+
+`pm2 stop npm` :  If you have multiple processes managed by PM2 that were started with the npm -- start, you can stop them all using this command. This effectively halts the application, but does not remove it from PM2's process list.
+
+`pm2 restart npm` :	This command restarts the running process associated with the npm command. PM2 will first stop the current instance and then start it again, ensuring any updates or changes are applied.
+
+
+### If time: One other way (can you find another package manager do it like pm2?)
+
+
+### You should have already used "&" at the end the command to run the app in the background - document the issue with using this method when it comes to stopping/re-starting the app
+
+
+### Document the methods you got working
+
+
+### Check the app is working in your browser at the IP address of the VM with :3000 appended to the end (or without port 3000 in the URL if your reverse proxy is running).
+
+
+# Automate configuration of nginx reverse proxy
+
+
+### Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.
+
+
+### Test your command manually (i.e. SSH into your app VM)
+
+
+### Add the reverse proxy commands to your app provision script.
+
+
+### Test your provision script works to setup the reverse proxy by running the script manually (i.e. SSH into your app VM to run the script)

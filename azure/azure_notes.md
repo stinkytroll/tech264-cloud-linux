@@ -25,6 +25,7 @@
 - [How to add a port](#how-to-add-a-port)
 - [The first two commands you run when you first start your VM](#the-first-two-commands-you-run-when-you-first-start-your-vm)
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
+- [SSH Security](#ssh-security)
 
 # The basics of Azure
 
@@ -296,3 +297,17 @@ You can then paste this into your SSH key.
 12. Select **delete** once more to confirm **deletion**.
 
 We leave the Virtual Network and SSH Key as they can be reused.
+
+# SSH Security
+Even though only you have your SSH key, people can still attempt to access your VM. Keeping your VM secure is important to prevent data breaches and other security issues. 
+
+1. Navigate to **Network Settings**.
+2. Locate **Inbound security rules** under **Settings**.
+3. Find your SSH rule and change **Source** from **Any** to your own IP address 
+to stop people from trying to access your VM.
+
+However, when you turn off the VM, the IP will change. 
+
+If we're not SSHing into it for a long time, we could...
+
+1. Change access for **SSH** to **Deny**. This means NO ONE can get access.
