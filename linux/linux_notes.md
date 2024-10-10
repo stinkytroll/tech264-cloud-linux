@@ -32,7 +32,6 @@
 - [SCP command and how it works](#scp-command-and-how-it-works)
 - [Making a Database in Azure - MongoDB](#making-a-database-in-azure---mongodb)
 - [To connect our DB to our app...](#to-connect-our-db-to-our-app)
-- [DB Script Task: Error Fixing](#db-script-task-error-fixing)
 - [Reverse Proxy](#reverse-proxy)
 - [How many services can use a port?](#how-many-services-can-use-a-port)
   - [What error do you get when you try to run another instance of the Sparta app? Take a screenshot of it + add to your documentation.](#what-error-do-you-get-when-you-try-to-run-another-instance-of-the-sparta-app-take-a-screenshot-of-it--add-to-your-documentation)
@@ -43,13 +42,8 @@
     - [One way should use pm2](#one-way-should-use-pm2)
     - [If time: One other way (can you find another package manager do it like pm2?)](#if-time-one-other-way-can-you-find-another-package-manager-do-it-like-pm2)
     - [You should have already used "\&" at the end the command to run the app in the background - document the issue with using this method when it comes to stopping/re-starting the app](#you-should-have-already-used--at-the-end-the-command-to-run-the-app-in-the-background---document-the-issue-with-using-this-method-when-it-comes-to-stoppingre-starting-the-app)
-    - [Document the methods you got working](#document-the-methods-you-got-working)
-    - [Check the app is working in your browser at the IP address of the VM with :3000 appended to the end (or without port 3000 in the URL if your reverse proxy is running).](#check-the-app-is-working-in-your-browser-at-the-ip-address-of-the-vm-with-3000-appended-to-the-end-or-without-port-3000-in-the-url-if-your-reverse-proxy-is-running)
 - [Automate configuration of nginx reverse proxy](#automate-configuration-of-nginx-reverse-proxy)
     - [Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.](#research-how-setup-the-reverse-proxy-with-a-single-bash-command-or-as-few-commands-as-possible-so-that-it-can-be-used-for-automating-the-process-later-in-a-bash-script-hint-research-linux-commands-that-can-be-used-to-replace-lines-or-strings-within-a-text-file)
-    - [Test your command manually (i.e. SSH into your app VM)](#test-your-command-manually-ie-ssh-into-your-app-vm)
-    - [Add the reverse proxy commands to your app provision script.](#add-the-reverse-proxy-commands-to-your-app-provision-script)
-    - [Test your provision script works to setup the reverse proxy by running the script manually (i.e. SSH into your app VM to run the script)](#test-your-provision-script-works-to-setup-the-reverse-proxy-by-running-the-script-manually-ie-ssh-into-your-app-vm-to-run-the-script)
 
 
 # File Ownership With Linux
@@ -385,83 +379,12 @@ npm start
 
 We can then access the app page via the IP in the **Connect** tab of Azure.
 
-# DB Script Task: Error Fixing
-
-```
-#!/bin/bash
-
-echo "Check for updates..."
-sudo apt update -y
-echo "Check complete."
-
-echo "Check for upgrades..."
-sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-echo "Upgrades complete."
-
-echo "Install gnupg..."
-sudo apt-get install gnupg curl
-echo "gnupg installed."
-
-echo "Download PGP"
-curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
-   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
-   --dearmor
-echo "PGP downloaded."
-
-echo  "Register MongoDB to system..."
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.g>
-echo "Register complete."
-
-echo "Run update..."
-sudo DEBIAN_FRONTEND=noninteractive apt update -y
-echo "Update complete."
-
-echo "Install MongoDB components..."
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mongodb-org=7.0.6 mongod>
-echo "MongoDB components downloaded."
-
-echo "Start MongoDB..."
-sudo systemctl start mongod
-echo "MongoDB started."
-
-echo "Set env variable to new BindIp value..."
-NEW_BIND_IP="0.0.0.0"
-echo "Variable set."
-
-echo "Search for line with BindIp, then replace with new IP"
-sudo sed -i "s/^bindIp: .*/bindIp: $NEW_BIND_IP/" /etc/mongod.conf
-echo "Replacement complete."
-
-echo "Restart to apply changes..."
-sudo systemctl restart mongod
-echo "Changes applied."
-
-echo "Enable MongoDB"
-sudo systemctl enable mongod
-echo "MongoDB enabled."
-
-echo "Connect via our VMs via IP."
-export DB_HOST=mongodb://172.166.196.136:3000/posts
-
-echo "Connection complete."
-
-echo "Set env variable"
-printenv DB_HOST
-echo "env variable set."
-
-echo "NPM install and start"
-npm install
-npm start
-echo "Start complete."
-
-```
-
 # Reverse Proxy
 Route client requests to one or more backend servers, allowing you to expose it on a public IP and port. Hides the port which is better for security.
 
 1. We go to the `nginx.conf` by using `sudo nano /etc/nginx/sites-available/nginx.conf`, as we do not have permissions to edit it without super user.`
 
-2. Location this:
+2. Locate this:
 ```
     location / {
         proxy_pass http://localhost:3000;  # Ensure this is the correct port
@@ -490,7 +413,6 @@ We can use the command `lsof -i :3000` to find the process using **port 3000**.
 
 ## Work out ways to both run, stop and re-start the app in the background (besides using the "&" at the end of the command):
 
-
 ### One way should use pm2
 `pm2` : A production process manager that allows you to run your apps in the background, keep them alive (restart automatically if they crash), monitor performance, and handle logs. 
 
@@ -500,17 +422,18 @@ We can use the command `lsof -i :3000` to find the process using **port 3000**.
 
 `pm2 restart npm` :	This command restarts the running process associated with the npm command. PM2 will first stop the current instance and then start it again, ensuring any updates or changes are applied.
 
+Don't forget to install PM2 in your script using `sudo npm install -g pm2`. The `-g` installs this globally, meaning we can access PM2 from any terminal window without needing to be in a specific project directory.
 
 ### If time: One other way (can you find another package manager do it like pm2?)
-
+Research `forever`.
 
 ### You should have already used "&" at the end the command to run the app in the background - document the issue with using this method when it comes to stopping/re-starting the app
 
+**Stopping the App**:
+- To stop the application, you need to use the kill command followed by the PID, which requires additional steps and is error-prone.
 
-### Document the methods you got working
-
-
-### Check the app is working in your browser at the IP address of the VM with :3000 appended to the end (or without port 3000 in the URL if your reverse proxy is running).
+**No Automatic Restarts**:
+- If the application crashes, it will not be restarted automatically. You'll need to monitor the app yourself and manually restart it if needed.
 
 
 # Automate configuration of nginx reverse proxy
@@ -518,11 +441,9 @@ We can use the command `lsof -i :3000` to find the process using **port 3000**.
 
 ### Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.
 
+`sudo sed -i 's|try_files $uri $uri/ =404;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default` 
 
-### Test your command manually (i.e. SSH into your app VM)
-
-
-### Add the reverse proxy commands to your app provision script.
-
-
-### Test your provision script works to setup the reverse proxy by running the script manually (i.e. SSH into your app VM to run the script)
+`'s|...|...|'` :
+- This is the syntax for a substitution command in sed.
+The s stands for substitute. The syntax is generally s/pattern/replacement/.
+The | character is used as a delimiter for the parts of the substitution command instead of the usual /. This is useful when the pattern or replacement string contains slashes, making it easier to read.
