@@ -357,7 +357,7 @@ This will enable MongoDB, which then should be enabled on our VMs whenever we bo
 
 1. Open a new GitBash window and CD into app directory.
 ```
-export DB_HOST=mongodb://IP:PORT/posts
+export DB_HOST=mongodb://DBPRIVATEIP:PORT/posts
 ```
 This will connect via our VMs private IP. 
 
@@ -438,7 +438,6 @@ Research `forever`.
 
 # Automate configuration of nginx reverse proxy
 
-
 ### Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.
 
 `sudo sed -i 's|try_files $uri $uri/ =404;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default` 
@@ -447,3 +446,4 @@ Research `forever`.
 - This is the syntax for a substitution command in sed.
 The s stands for substitute. The syntax is generally s/pattern/replacement/.
 The | character is used as a delimiter for the parts of the substitution command instead of the usual /. This is useful when the pattern or replacement string contains slashes, making it easier to read.
+

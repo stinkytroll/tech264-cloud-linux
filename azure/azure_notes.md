@@ -26,6 +26,7 @@
 - [The first two commands you run when you first start your VM](#the-first-two-commands-you-run-when-you-first-start-your-vm)
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 - [SSH Security](#ssh-security)
+- [Create an Image](#create-an-image)
 
 # The basics of Azure
 
@@ -311,3 +312,14 @@ However, when you turn off the VM, the IP will change.
 If we're not SSHing into it for a long time, we could...
 
 1. Change access for **SSH** to **Deny**. This means NO ONE can get access.
+
+# Create an Image
+
+1. Select **Capture Image** on the VM of choice's **Overview**.
+2. Under **Instance details**, Select **No, capture only a managed image**. 
+3. Enable **Automatically delete this virtual machine after creating the image**.
+4. Name image appropriately.
+5. Run `sudo waagent -deprovision+user` inside our DB SSH to remove delete information we no longer need, then return to Azure window.
+6. Add tags.
+7. Review, then create.
+

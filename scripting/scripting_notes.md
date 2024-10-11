@@ -12,6 +12,7 @@
     - [Example](#example)
     - [Run the script in the CL](#run-the-script-in-the-cl)
     - [Output](#output)
+- [Automating DB VM Using a Script text](#automating-db-vm-using-a-script-text)
   
   
 
@@ -83,3 +84,19 @@ else:
 
 `Argument 2: world`
 
+# Automating DB VM Using a Script [text](db_prov.sh)
+Running the below script configures a VM running on Linux Ubuntu 22.04 LTS Gen 2 to host a Database by:
+
+Updating packages.
+Upgarding packages.
+Installing gnupg and curl.
+Download and add MongoDB GPG key for package verification.
+Add MongoDB repository to the sources list.
+Update package list again to include the newly added MongoDB repository
+Install MongoDB version 7.0.6 and specific associated packages.
+Enable MongoDB service.
+Modify MongoDB configuration to allow remote connections.
+Restart MongoDB service to apply configurations
+
+Automating pm2 to run our app.
+Installing pm2 (process manager).

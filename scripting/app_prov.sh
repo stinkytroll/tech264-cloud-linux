@@ -11,7 +11,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
 echo "upgrade complete"
 
 # Install Nginx web server
-sudo apt install -y nginx
+sudo DEBIAN_FRONTEND=noninteractive apt install -y nginx
 echo "nginx installed"
 
 # Check the syntax of the Nginx configuration files
@@ -19,15 +19,15 @@ echo "Checking syntax..."
 sudo nginx -t
 echo "Syntax checked."
 
-# Restart Nginx to apply any configuration changes made
-echo "Restart nginx to apply changes"
-sudo systemctl restart nginx
-echo "Restart complete."
-
 # Update the Nginx configuration to replace the try_files directive with a proxy_pass to the Node.js app
 echo "Find proxy pass line and replace it..."
 sudo sed -i 's|try_files $uri $uri/ =404;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default
 echo "Nginx reverse proxy configuration updated"
+
+# Restart Nginx to apply any configuration changes made
+echo "Restart nginx to apply changes"
+sudo systemctl restart nginx
+echo "Restart complete."
 
 # Install Node.js version 20 from NodeSource
 echo "install nodejs v20..."
@@ -61,7 +61,7 @@ echo "Complete."
 
 # Set the DB_HOST environment variable for MongoDB connection
 echo "Set the DB_HOST environment variable..."
-export DB_HOST=mongodb://10.0.3.5:27017/posts
+export DB_HOST=mongodb://10.0.3.6:27017/posts
 printenv DB_HOST
 echo "DB_HOST set to $DB_HOST."
 
