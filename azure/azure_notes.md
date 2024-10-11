@@ -30,6 +30,20 @@
 - [Dashboard VM](#dashboard-vm)
 - [How to counteract High CPU Load](#how-to-counteract-high-cpu-load)
 - [Scaling a VM](#scaling-a-vm)
+- [Architecture for an Azure VM Scale Set](#architecture-for-an-azure-vm-scale-set)
+- [Creating a VM scale set](#creating-a-vm-scale-set)
+  - [Basics --\>](#basics---)
+  - [Disks --\>](#disks---)
+  - [Networking --\>](#networking---)
+  - [Health --\>](#health---)
+  - [Advanced --\>](#advanced---)
+  - [Tags --\>](#tags---)
+  - [Review and Create --\>](#review-and-create---)
+- [What is a load balancer and why is it needed?](#what-is-a-load-balancer-and-why-is-it-needed)
+    - [Healthy Instance:](#healthy-instance)
+    - [Unhealthy Instance:](#unhealthy-instance)
+- [How to SSH into an instance](#how-to-ssh-into-an-instance)
+- [Creating an unhealthy instance in my dashboard](#creating-an-unhealthy-instance-in-my-dashboard)
 
 # The basics of Azure
 
@@ -338,3 +352,106 @@ If we're not SSHing into it for a long time, we could...
 
 # Scaling a VM
 ![alt text](image.png)
+
+# Architecture for an Azure VM Scale Set
+![alt text](image-2.png)
+
+# Creating a VM scale set
+
+## Basics -->
+1. Search "scale set" in the top search bar and click **virtual machine scale set**.
+2. **Assign** resource group `(tech264)`.
+3. **Name** the VM (e.g tech264-name...)
+4. Set **region** to `(Europe) UK South`.
+5. Select all 3 availability zones.
+6. Under **orchestration mode**, select `uniform`.
+7. Set the security type to `standard`.
+8. For **scaling**, select `autoscaling`. A window will appear below it - click **configure**.
+9. Select the pencil for the default condition to edit it.
+10. Input **3** for the maximum instances / VMs.
+11. Input **75** for the CPU threshold greater than. 
+12. Select **Save**.
+13. Once returned to the basics page, select "see all images".
+14. Select "my images" and search for your image - then **select**.
+9. Change **username** to something more secure.
+10. Change SSH public key source to `Use existing key stored in Azure`.
+11. Select **your** Stored key (e.g tech264..).
+
+## Disks -->
+1. Change OS Disk type to `Standard SSD (locally redundant storage)`.
+
+## Networking -->
+1. For the **Virtual network**, Select your subnet.
+2. Edit your **Network Interface**.
+3. Select allow selected ports, then enable `SSH(22)` and `HTTP(80)`.
+4. Ensure public IP address is **disabled** as the load balancer will handle this now.
+5. Apply those changes and you will be returned to the Networking screen.
+6. Select **Create a load balancer**.
+7. Change the name to your naming conventions with al "lb" on the end of it, to label it as a **load balancer**. 
+8. Select **Create**. This will take up the "Select load balancer" slot.
+
+## Health -->
+1. **Tick** the box labelled "Enable application health monitoring". 
+2. **Tick** the box labelled "Automatic repairs".
+
+## Advanced -->
+1. **Tick** the box "Enable user data" to allow an input and insert:
+```bash
+#!/bin/bash
+
+echo "Change directory to app"
+cd repo/app
+echo "In app directory"
+
+# Stop all existing pm2 processes
+pm2 stop all
+
+echo "start"
+pm2 start app.js
+echo "App started with pm2
+```
+
+## Tags -->
+1. Select owner and your name.
+
+## Review and Create -->
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new VM scale set.
+
+# What is a load balancer and why is it needed?
+
+A load balancer is a system or device that distributes incoming network traffic across multiple servers (or other resources), ensuring no single server is overwhelmed. It acts as a "traffic manager," distributing client requests efficiently to multiple backend servers, also known as a server pool or server farm.
+
+How to create an unhealthy instance (for testing) and why it is marked as healthy/unhealthy
+
+To create an unhealthy instance for testing in a load-balanced environment, you simulate conditions where a server fails to meet the health check criteria set by the load balancer. We could:
+`sudo systemctl stop nginx` : Stop nginx from running.
+`sudo ufw deny 80/tcp` : Block the port with a firewall rule.
+
+### Healthy Instance:
+
+The instance is considered healthy if it responds to the health check with expected results. This typically includes:
+- HTTP response code 200 (OK) from the health check URL.
+- Successful connection to the specified TCP/UDP port.
+- Expected output from a script.
+- Healthy instances are included in the load balancer’s pool and continue to receive traffic.
+
+### Unhealthy Instance:
+
+The instance is marked unhealthy if:
+- It doesn’t respond to the health check within the defined timeout period.
+- It returns an HTTP status code like 500 (Internal Server Error) or doesn’t return a 200 OK.
+- The port being checked is not reachable.
+- It fails custom health check criteria (e.g., a failed database connection or insufficient resources).
+- Unhealthy instances are excluded from the load balancer’s pool until they pass the health checks again.
+
+# How to SSH into an instance
+
+As you would normally grab the IP, you would need to find the public IP. As well as that, since the instance is now managed by a load balancer, the IP is different. 
+
+Once we have the IP, we also need to use `-p` to label a port input for our SSH command, followed by the instance port number. This ranges between 50000 and 50002.
+
+# Creating an unhealthy instance in my dashboard
+
+Navigate to your operating system tab under your scale set. Edit user data and commit out the `sudo pm2 start app.js` line. Then, delete one of the instances and when it remakes one, it will do so with the new user data - creating an unhealthy, unworking instance.
+![alt text](image-3.png)
