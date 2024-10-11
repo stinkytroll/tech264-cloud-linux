@@ -52,7 +52,6 @@
     python3 script_name.py
     ```
 
-
 # Understanding Command-Line Arguments in Python
 
 ## What are Command-Line Arguments?
@@ -100,3 +99,4 @@ Restart MongoDB service to apply configurations
 
 Automating pm2 to run our app.
 Installing pm2 (process manager).
+

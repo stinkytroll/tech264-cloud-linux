@@ -44,6 +44,9 @@
     - [You should have already used "\&" at the end the command to run the app in the background - document the issue with using this method when it comes to stopping/re-starting the app](#you-should-have-already-used--at-the-end-the-command-to-run-the-app-in-the-background---document-the-issue-with-using-this-method-when-it-comes-to-stoppingre-starting-the-app)
 - [Automate configuration of nginx reverse proxy](#automate-configuration-of-nginx-reverse-proxy)
     - [Research how setup the reverse proxy with a single Bash command (or as few commands as possible) so that it can be used for automating the process later in a Bash script Hint: Research Linux commands that can be used to replace line(s) or strings within a text file.](#research-how-setup-the-reverse-proxy-with-a-single-bash-command-or-as-few-commands-as-possible-so-that-it-can-be-used-for-automating-the-process-later-in-a-bash-script-hint-research-linux-commands-that-can-be-used-to-replace-lines-or-strings-within-a-text-file)
+- [How to connect the VM app after you stop it and start again - using  SSH key](#how-to-connect-the-vm-app-after-you-stop-it-and-start-again---using--ssh-key)
+- [How to increase CPU](#how-to-increase-cpu)
+  - [Load testing with Apache Bench](#load-testing-with-apache-bench)
 
 
 # File Ownership With Linux
@@ -357,7 +360,7 @@ This will enable MongoDB, which then should be enabled on our VMs whenever we bo
 
 1. Open a new GitBash window and CD into app directory.
 ```
-export DB_HOST=mongodb://DBPRIVATEIP:PORT/posts
+export DB_HOST=mongodb://DBPPRIVATEIP:PORT/posts
 ```
 This will connect via our VMs private IP. 
 
@@ -447,3 +450,21 @@ Research `forever`.
 The s stands for substitute. The syntax is generally s/pattern/replacement/.
 The | character is used as a delimiter for the parts of the substitution command instead of the usual /. This is useful when the pattern or replacement string contains slashes, making it easier to read.
 
+
+# How to connect the VM app after you stop it and start again - using  SSH key
+1. Connect the VM with SSH key
+2. To see the repo/app- need to be in root directory  -> cd /repo/app
+3. Stop all processes -> pm2 stop all
+4. To start the app -> sudo pm2 start app.js
+
+# How to increase CPU
+`sudo apt-get install apache2-utils`
+
+`ab`
+
+## Load testing with Apache Bench
+```
+ab -n 1000 -c 100 http://yourwebsite.com/
+# ab -n 1000 -c 100 http://public ip address/
+# to increase the requests : ab -n 1000 -c 200...
+```

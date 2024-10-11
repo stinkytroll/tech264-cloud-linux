@@ -27,6 +27,9 @@
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 - [SSH Security](#ssh-security)
 - [Create an Image](#create-an-image)
+- [Dashboard VM](#dashboard-vm)
+- [How to counteract High CPU Load](#how-to-counteract-high-cpu-load)
+- [Scaling a VM](#scaling-a-vm)
 
 # The basics of Azure
 
@@ -323,3 +326,15 @@ If we're not SSHing into it for a long time, we could...
 6. Add tags.
 7. Review, then create.
 
+# Dashboard VM
+1. In the VM -> Overview-> scroll down to where is:
+2. Properties--Monitoring--Capabilities--Recommendations--Tutorials
+3. Select Monitoring
+4. In the monitoring window -> Platform metrics -> pin the metrics that we need(e.g. CPU, Disk bytes)
+5. Click pin-> create new-> type(private/pubic) -> Dashboard name-> Pin
+
+# How to counteract High CPU Load
+![alt text](image-1.png)
+
+# Scaling a VM
+![alt text](image.png)
