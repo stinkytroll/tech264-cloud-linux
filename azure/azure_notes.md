@@ -72,10 +72,13 @@
     - [--\> Networking](#---networking-2)
     - [--\> Advanced](#---advanced-1)
     - [--\> Review and Create](#---review-and-create-5)
-  - [Create a virtual machine for the NVA.](#create-a-virtual-machine-for-the-nva)
+  - [Create a virtual machine for the NVA](#create-a-virtual-machine-for-the-nva)
     - [--\> Basics](#---basics-5)
     - [--\> Networking](#---networking-3)
     - [--\> Review and Create](#---review-and-create-6)
+  - [Route Tables](#route-tables)
+    - [--\> Review and Create](#---review-and-create-7)
+    - [--\> Once it's created, navigate to the resource.](#---once-its-created-navigate-to-the-resource)
 
 # The basics of Azure
 
@@ -563,9 +566,9 @@ Navigate to your operating system tab under your scale set. Edit user data and c
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new secure virtual network.
 
-Then we create a virtual machine using our database image. We start with the database as we follow the 2-tier architecture sructure.
-
 ## Create Database VM
+Now we create a virtual machine using our database image. We start with the database as we follow the 2-tier architecture sructure.
+
 Follow the usual **DATABASE** steps with these slight changes... 
 
 ### --> Basics
@@ -597,9 +600,10 @@ Follow the usual **APP** steps with these slight changes...
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new App.
 
-Now we create the VM for the Network Virtual Appliance (NVA). This performs network functions like routing, firewalling, trafic filtering and load balancing. 
+We can use `ping 10.0.4.4` to ensure the connection between app and the database have been established and are working. To do this, `ssh` into the app VM and input the command.
 
-## Create a virtual machine for the NVA.
+## Create a virtual machine for the NVA
+Now we create the VM for the Network Virtual Appliance (NVA). This performs network functions like routing, firewalling, trafic filtering and load balancing. 
 
 ### --> Basics
 1. Name it appropriately (tech264-name-in-3-subnet-nva).
@@ -616,5 +620,17 @@ Now we create the VM for the Network Virtual Appliance (NVA). This performs netw
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new NVA.
 
+## Route Tables
 
+1. Select **tech264** resource group.
+2. For **Region**, Select **UK South**.
 
+### --> Review and Create 
+1. **Ensure** you've selected the correct options. There isn't really much here, really.
+2. **Create** your shiny new Route table.
+
+### --> Once it's created, navigate to the resource. 
+
+3. Go to the **Settings** drop down.
+4. Click **Routes**.
+5. Click **Add**.
