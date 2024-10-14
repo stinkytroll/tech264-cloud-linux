@@ -576,6 +576,8 @@ stress --cpu 4 --timeout 300
 # Re-create the 3-subnet architecture to make the database private
 ![alt text](image-5.png)
 
+3 subnet architecure is more secure than 2 tier architecture as it adds a layer of securtiy and control. The DMZ subnet acts as an intermdiary between the public and private subnets. It contains NVAs such as load balancer or fiewall, which inspect traffic before allowing it to pass between the public and private subnets. Think of it as a doorman at a club. If the big fella doesn't like what he (or she, go girl) sees, he's not letting you in. 
+
 ## Set up the Virtual Network
 
 ### --> Basics
