@@ -32,14 +32,16 @@
 - [Scaling a VM](#scaling-a-vm)
 - [Architecture for an Azure VM Scale Set](#architecture-for-an-azure-vm-scale-set)
 - [Creating a VM scale set](#creating-a-vm-scale-set)
-  - [Basics --\>](#basics---)
-  - [Disks --\>](#disks---)
-  - [Networking --\>](#networking---)
-  - [Health --\>](#health---)
-  - [Advanced --\>](#advanced---)
-  - [Tags --\>](#tags---)
-  - [Review and Create --\>](#review-and-create---)
+  - [--\> Basics](#---basics-1)
+  - [--\> Disks](#---disks-1)
+  - [--\> Networking](#---networking-1)
+  - [--\> Health](#---health)
+  - [--\> Advanced](#---advanced)
+  - [--\> Tags](#---tags-1)
+  - [--\> Review and Create](#---review-and-create-1)
+- [How to delete a scale set](#how-to-delete-a-scale-set)
 - [What is a load balancer and why is it needed?](#what-is-a-load-balancer-and-why-is-it-needed)
+- [How to create an unhealthy instance (for testing) and why it is marked as healthy/unhealthy](#how-to-create-an-unhealthy-instance-for-testing-and-why-it-is-marked-as-healthyunhealthy)
     - [Healthy Instance:](#healthy-instance)
     - [Unhealthy Instance:](#unhealthy-instance)
 - [How to SSH into an instance](#how-to-ssh-into-an-instance)
@@ -50,12 +52,30 @@
   - [Ensures high availability](#ensures-high-availability)
 - [Creating an unhealthy instance in my dashboard](#creating-an-unhealthy-instance-in-my-dashboard)
 - [Creating an alert rule](#creating-an-alert-rule)
-    - [Condition -- \>](#condition----)
-    - [Actions --\>](#actions---)
-    - [Details --\>](#details---)
-    - [Notifications --\>](#notifications---)
-    - [Tags --\>](#tags----1)
-    - [Review and Create --\>](#review-and-create----1)
+    - [--\> Condition](#---condition)
+    - [--\> Actions](#---actions)
+    - [--\> Details](#---details)
+    - [--\> Notifications](#---notifications)
+    - [--\> Tags](#---tags-2)
+    - [--\> Review and Create](#---review-and-create-2)
+- [Re-create the 3-subnet architecture to make the database private](#re-create-the-3-subnet-architecture-to-make-the-database-private)
+  - [Set up the Virtual Network](#set-up-the-virtual-network)
+    - [--\> Basics](#---basics-2)
+    - [--\> IP addresses](#---ip-addresses)
+    - [--\> Tags](#---tags-3)
+    - [--\> Review and Create](#---review-and-create-3)
+  - [Create Database VM](#create-database-vm)
+    - [--\> Basics](#---basics-3)
+    - [--\> Review and Create](#---review-and-create-4)
+  - [Create the App VM](#create-the-app-vm)
+    - [--\> Basics](#---basics-4)
+    - [--\> Networking](#---networking-2)
+    - [--\> Advanced](#---advanced-1)
+    - [--\> Review and Create](#---review-and-create-5)
+  - [Create a virtual machine for the NVA.](#create-a-virtual-machine-for-the-nva)
+    - [--\> Basics](#---basics-5)
+    - [--\> Networking](#---networking-3)
+    - [--\> Review and Create](#---review-and-create-6)
 
 # The basics of Azure
 
@@ -369,9 +389,9 @@ If we're not SSHing into it for a long time, we could...
 ![alt text](image-2.png)
 
 # Creating a VM scale set
-A scale set lets you create and manage a group of load balanced VMs. 
+A scale set lets you create and manage a group of load balanced VMs. The VMs are identical and automatically scaling.
 
-## Basics -->
+## --> Basics 
 1. Search "scale set" in the top search bar and click **virtual machine scale set**.
 2. **Assign** resource group `(tech264)`.
 3. **Name** the VM (e.g tech264-name...)
@@ -390,10 +410,10 @@ A scale set lets you create and manage a group of load balanced VMs.
 10. Change SSH public key source to `Use existing key stored in Azure`.
 11. Select **your** Stored key (e.g tech264..).
 
-## Disks -->
+## --> Disks 
 1. Change OS Disk type to `Standard SSD (locally redundant storage)`.
 
-## Networking -->
+## --> Networking 
 1. For the **Virtual network**, Select your subnet.
 2. Edit your **Network Interface**.
 3. Select allow selected ports, then enable `SSH(22)` and `HTTP(80)`.
@@ -403,11 +423,11 @@ A scale set lets you create and manage a group of load balanced VMs.
 7. Change the name to your naming conventions with al "lb" on the end of it, to label it as a **load balancer**. 
 8. Select **Create**. This will take up the "Select load balancer" slot.
 
-## Health -->
+## --> Health 
 1. **Tick** the box labelled "Enable application health monitoring". 
 2. **Tick** the box labelled "Automatic repairs".
 
-## Advanced -->
+## --> Advanced 
 1. **Tick** the box "Enable user data" to allow an input and insert:
 ```bash
 #!/bin/bash
@@ -424,22 +444,29 @@ pm2 start app.js
 echo "App started with pm2
 ```
 
-## Tags -->
+## --> Tags 
 1. Select owner and your name.
 
-## Review and Create -->
+## --> Review and Create 
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new VM scale set.
+
+# How to delete a scale set
+1. Go the **overview** tab.
+2. Select **delete**, and enable the **force delete** option.
 
 # What is a load balancer and why is it needed?
 
 A load balancer is a system or device that distributes incoming network traffic across multiple servers (or other resources), ensuring no single server is overwhelmed. It acts as a "traffic manager," distributing client requests efficiently to multiple backend servers, also known as a server pool or server farm.
 
-How to create an unhealthy instance (for testing) and why it is marked as healthy/unhealthy
-
+# How to create an unhealthy instance (for testing) and why it is marked as healthy/unhealthy
 To create an unhealthy instance for testing in a load-balanced environment, you simulate conditions where a server fails to meet the health check criteria set by the load balancer. We could:
 `sudo systemctl stop nginx` : Stop nginx from running.
 `sudo ufw deny 80/tcp` : Block the port with a firewall rule.
+- You could also stop and rerun the VM, because the app will not re-run again.
+- You could SSH in the instance you want to be uneahlthy, go to the root directory and use `pm2 stop all`.
+
+To make an unhealthy instance healthy again, we'd have to reimage the instance.
 
 ### Healthy Instance:
 
@@ -447,16 +474,16 @@ The instance is considered healthy if it responds to the health check with expec
 - HTTP response code 200 (OK) from the health check URL.
 - Successful connection to the specified TCP/UDP port.
 - Expected output from a script.
-- Healthy instances are included in the load balancer’s pool and continue to receive traffic.
+- Healthy instances are included in the load balancer's pool and continue to receive traffic.
 
 ### Unhealthy Instance:
 
 The instance is marked unhealthy if:
-- It doesn’t respond to the health check within the defined timeout period.
-- It returns an HTTP status code like 500 (Internal Server Error) or doesn’t return a 200 OK.
+- It doesn't respond to the health check within the defined timeout period.
+- It returns an HTTP status code like 500 (Internal Server Error) or doesn't return a 200 OK.
 - The port being checked is not reachable.
 - It fails custom health check criteria (e.g., a failed database connection or insufficient resources).
-- Unhealthy instances are excluded from the load balancer’s pool until they pass the health checks again.
+- Unhealthy instances are excluded from the load balancer's pool until they pass the health checks again.
 
 # How to SSH into an instance
 
@@ -480,6 +507,8 @@ Azure provides auto-scaling services that spin up more instances when a load inc
 ## Ensures high availability
 Load testing helps ensure that the appliation remains available even under heavy load. We can use the dashboard's alerts to send alerts when certain thresholds are met.
 
+If we have 3 availability regions and a minimum of 2 instances, we can ensure high availability. If one is up is region 1 and the other is up in region 2, if region 1 has a disaster, the traffic moves to the second machine. If we had a minimum of 1 instance, if it went down in region 1, we would have to wait for another instance to spin up in a different region, which leaves customers waiting.
+
 # Creating an unhealthy instance in my dashboard
 
 Navigate to your operating system tab under your scale set. Edit user data and commit out the `sudo pm2 start app.js` line. Then, delete one of the instances and when it remakes one, it will do so with the new user data - creating an unhealthy, unworking instance.
@@ -489,28 +518,103 @@ Navigate to your operating system tab under your scale set. Edit user data and c
 1. Select the VM you wish to add an alert to and navigate to **Monitoring**.
 2. under "Alerts", you will ee a pop up to **enable** or **creatre alert rule**. Select **creatre alert rule**.
 
-### Condition -- >
+### --> Condition
 1. For **Signal name**, select **Percentage CPU**.
 2. Change the **Threshold** to your desired amount: **75**% in our case. 
 
-### Actions -->
+### --> Actions 
 1. Select **Create action group**.
 2. Select **tech264** as the resource group. 
 3. Name the action group appropriately.
 
-### Details -->
+### --> Details
 1. Set the severity.
 2. Add a rule name.
 
-### Notifications -->
+### --> Notifications
 1. For **notification type**, select **Email/SMS/message/Push/Voice**.
 2. Name it appropriately.
 3. Select the pencil to edit details.
 4. Enable **email**, and input your desired email.
 
-### Tags -->
+### --> Tags
 1. Select owner and your name.
 
-### Review and Create -->
+### --> Review and Create
 1. **Ensure** you've selected the correct options.
-2. **Create** your shiny new VM scale set.
+2. **Create** your shiny new alert rule.
+
+# Re-create the 3-subnet architecture to make the database private
+
+## Set up the Virtual Network
+
+### --> Basics
+1. Name appropriately (tech264-name-in-3-subnet-vnet-db-vm)
+
+### --> IP addresses
+1. Edit **default subnet**, rename to **public-subnet** and change **starting address** to `10.0.1.0`.
+2. Add a new subnet, rename to dmz-subnet and change **starting address** to `10.0.3.0`.
+3. Add another new subnet for private subnet, rename to private-subnet and change **starting address** to` 10.0.4.0` and enable **private subnet**. This means that whatever you put in this subnet cannot access the internet.
+
+### --> Tags 
+1. Select owner and your name.
+
+### --> Review and Create 
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new secure virtual network.
+
+Then we create a virtual machine using our database image. We start with the database as we follow the 2-tier architecture sructure.
+
+## Create Database VM
+Follow the usual **DATABASE** steps with these slight changes... 
+
+### --> Basics
+1. Select **zone 3** for avaialiblity zone assigned to the DB.
+2. Select the previously created virtual network and select the private subnet. 10.0.4.0
+3. Disable public IP address.
+4. Only enable **SSH port**.
+
+### --> Review and Create 
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new DB.
+
+Once this is done, we create the application that will connect to the database and display the information. 
+
+## Create the App VM
+Follow the usual **APP** steps with these slight changes... 
+
+### --> Basics
+1. Select **zone 1** for avaialiblity zone assigned to the App.
+ 
+### --> Networking 
+1. Select public subnet. 
+
+### --> Advanced 
+1. Enable **user data** and input your `image script` (script you use to run the image).
+2. Change the **IP** in the **export line** to the **private IP** of the **DB** we created previously.
+
+### --> Review and Create 
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new App.
+
+Now we create the VM for the Network Virtual Appliance (NVA). This performs network functions like routing, firewalling, trafic filtering and load balancing. 
+
+## Create a virtual machine for the NVA.
+
+### --> Basics
+1. Name it appropriately (tech264-name-in-3-subnet-nva).
+2. Select **zone 2** for avaialiblity zone assigned to the NVA.
+3. Select **Standard security** as it may have changed. 
+4. Select **see all images** and find the **clean-image**. 
+5. Leave SSH as the only port. 
+
+### --> Networking 
+1. Use the **DMZ subnet**. 
+2. Leave the public IP initially. later on if we used in production, we wouldn't.
+
+### --> Review and Create 
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new NVA.
+
+
+
