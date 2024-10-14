@@ -677,9 +677,30 @@ Now we need to associate the route table to where the traffic comes out of.
 ### TO BE CONTINUED...
 
 # What is an availability set? How do they work? Advantages/disadvantages?
+An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events.
 
+**Advantages**: 
+- **Improved Uptime**: Ensures that at least one VM remains operational during hardware failures or planned maintenance.
+- **Cost-effective**: Suitable for applications that don’t require extremely high availability but still benefit from a higher SLA than standalone VMs.
+
+**Disadvantages**:
+- **Single Data Center**: All VMs in an Availability Set are in the same Azure region and data center, making them vulnerable to data center-wide failures.
+- **No Zone-level Redundancy**: Availability Sets don’t protect against regional or zone-level outages. For protection against broader failures, Availability Zones should be considered.
 
 # What is an availability zone? Why superior to an availability set? Disadvantages?
+An Availability Zone is a physically separate zone within an Azure region. Each zone has its own power, cooling, and networking, making it isolated from other zones in the region.
 
+They are superior because...
+- **Higher Fault Tolerance**: Availability Zones protect against data center-level failures. VMs placed in different zones are isolated from each other geographically, offering protection against natural disasters or regional failures.
+- **Zone-level Redundancy**: With Availability Zones, Azure guarantees a 99.99% SLA for VMs.
 
 # What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?
+**A virtual machine scale set**  is a resource that allows you to automatically create and manage a group of identical, load-balanced VMs. It’s designed to automatically scale in response to demand.
+
+It does **horizontal scaling**:
+- **Scale Out**: This adds more instances of virtual machines (VMs) to handle increased demand.
+- **Scale In**: This reduces the number of VM instances when the demand decreases.
+
+and **vertical scaling**:
+- **Scale Up**: This increases the resources (CPU, memory, disk) allocated to the existing VMs without changing the number of instances.
+- **Scale Down**: This decreases the resources allocated to the VMs when the high-performance requirements are no longer necessary.
