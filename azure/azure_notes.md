@@ -78,7 +78,8 @@
     - [--\> Review and Create](#---review-and-create-6)
   - [Route Tables](#route-tables)
     - [--\> Review and Create](#---review-and-create-7)
-    - [--\> Once it's created, navigate to the resource.](#---once-its-created-navigate-to-the-resource)
+    - [--\> Routes under Settings](#---routes-under-settings)
+    - [--\> Subnet under Settings](#---subnet-under-settings)
 
 # The basics of Azure
 
@@ -629,8 +630,20 @@ Now we create the VM for the Network Virtual Appliance (NVA). This performs netw
 1. **Ensure** you've selected the correct options. There isn't really much here, really.
 2. **Create** your shiny new Route table.
 
-### --> Once it's created, navigate to the resource. 
+Once it's created, navigate to the resource. 
 
-3. Go to the **Settings** drop down.
-4. Click **Routes**.
-5. Click **Add**.
+### --> Routes under Settings
+2. Click **Routes**.
+3. Click **Add**.
+4. For the **route name**, input `to-private-subnet-route`.
+5. For the **destination type**, select **IP addresses**.
+6. For **Destination IP addresses/CIDR ranges**, we use the private subnet: `10.0.4.0/24`.
+7. For the next **hop type**, select **Virtual appliance**.
+8. For the next **hop address** input the **IP** of the NVA: `10.0.3.4`.
+9. Select **Add**.
+
+Now we need to associate the route table to where the traffic comes out of.
+
+### --> Subnet under Settings
+1. Choose your virtual network.
+2. Select the **public-subnet**.
