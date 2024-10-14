@@ -27,7 +27,7 @@
 - [Deleting Your Virtual Machine](#deleting-your-virtual-machine)
 - [SSH Security](#ssh-security)
 - [Create an Image](#create-an-image)
-- [Dashboard VM](#dashboard-vm)
+- [How you setup a dashboard](#how-you-setup-a-dashboard)
 - [How to counteract High CPU Load](#how-to-counteract-high-cpu-load)
 - [Scaling a VM](#scaling-a-vm)
 - [Architecture for an Azure VM Scale Set](#architecture-for-an-azure-vm-scale-set)
@@ -58,6 +58,7 @@
     - [--\> Notifications](#---notifications)
     - [--\> Tags](#---tags-2)
     - [--\> Review and Create](#---review-and-create-2)
+  - [Triggering this alert rule.](#triggering-this-alert-rule)
 - [Re-create the 3-subnet architecture to make the database private](#re-create-the-3-subnet-architecture-to-make-the-database-private)
   - [Set up the Virtual Network](#set-up-the-virtual-network)
     - [--\> Basics](#---basics-2)
@@ -80,6 +81,10 @@
     - [--\> Review and Create](#---review-and-create-7)
     - [--\> Routes under Settings](#---routes-under-settings)
     - [--\> Subnet under Settings](#---subnet-under-settings)
+    - [TO BE CONTINUED...](#to-be-continued)
+- [What is an availability set? How do they work? Advantages/disadvantages?](#what-is-an-availability-set-how-do-they-work-advantagesdisadvantages)
+- [What is an availability zone? Why superior to an availability set? Disadvantages?](#what-is-an-availability-zone-why-superior-to-an-availability-set-disadvantages)
+- [What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?](#what-is-a-virtual-machine-scale-set-what-type-of-scaling-does-it-do-how-does-it-work-limitations)
 
 # The basics of Azure
 
@@ -375,13 +380,18 @@ If we're not SSHing into it for a long time, we could...
 5. Run `sudo waagent -deprovision+user` inside our DB SSH to remove delete information we no longer need, then return to Azure window.
 6. Add tags.
 7. Review, then create.
+-> type(private/pubic) -> Dashboard name-> Pin
 
-# Dashboard VM
-1. In the VM -> Overview-> scroll down to where is:
-2. Properties--Monitoring--Capabilities--Recommendations--Tutorials
-3. Select Monitoring
-4. In the monitoring window -> Platform metrics -> pin the metrics that we need(e.g. CPU, Disk bytes)
-5. Click pin-> create new-> type(private/pubic) -> Dashboard name-> Pin
+# How you setup a dashboard
+1. go to monitoring tab and pin the following:
+   - **cpu average**
+   - **disk bytes**
+   - You can view more by clicking to option to view more metrics.
+2. click the **pin** on the **CPU average**.
+3. make a new, shared dashboard and fill in the details.
+4. add network total and disk operations metrics onto the dashboard.
+5. search dashboards at the top.
+6. click your dashboard.
 
 # How to counteract High CPU Load
 ![alt text](image-1.png)
@@ -548,7 +558,23 @@ Navigate to your operating system tab under your scale set. Edit user data and c
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new alert rule.
 
+## Triggering this alert rule.
+
+I set the threshold to 10% for testing and used the following commands to trigger it:
+
+```
+# Install stress
+sudo apt-get install stress
+
+# Generate CPU load using stress
+# This runs 4 workers that consume CPU for 300 seconds
+stress --cpu 4 --timeout 300
+```
+
+![alt text](image-4.png)
+
 # Re-create the 3-subnet architecture to make the database private
+![alt text](image-5.png)
 
 ## Set up the Virtual Network
 
@@ -647,3 +673,13 @@ Now we need to associate the route table to where the traffic comes out of.
 ### --> Subnet under Settings
 1. Choose your virtual network.
 2. Select the **public-subnet**.
+
+### TO BE CONTINUED...
+
+# What is an availability set? How do they work? Advantages/disadvantages?
+
+
+# What is an availability zone? Why superior to an availability set? Disadvantages?
+
+
+# What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?
