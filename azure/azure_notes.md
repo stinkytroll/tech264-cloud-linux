@@ -43,7 +43,19 @@
     - [Healthy Instance:](#healthy-instance)
     - [Unhealthy Instance:](#unhealthy-instance)
 - [How to SSH into an instance](#how-to-ssh-into-an-instance)
+- [Creating a dashboard](#creating-a-dashboard)
+- [How did load testing and the dashboard combined help us?](#how-did-load-testing-and-the-dashboard-combined-help-us)
+  - [Allows you to identify performance issues](#allows-you-to-identify-performance-issues)
+  - [Monitoring Auto-Scale and Load Distribution](#monitoring-auto-scale-and-load-distribution)
+  - [Ensures high availability](#ensures-high-availability)
 - [Creating an unhealthy instance in my dashboard](#creating-an-unhealthy-instance-in-my-dashboard)
+- [Creating an alert rule](#creating-an-alert-rule)
+    - [Condition -- \>](#condition----)
+    - [Actions --\>](#actions---)
+    - [Details --\>](#details---)
+    - [Notifications --\>](#notifications---)
+    - [Tags --\>](#tags----1)
+    - [Review and Create --\>](#review-and-create----1)
 
 # The basics of Azure
 
@@ -357,6 +369,7 @@ If we're not SSHing into it for a long time, we could...
 ![alt text](image-2.png)
 
 # Creating a VM scale set
+A scale set lets you create and manage a group of load balanced VMs. 
 
 ## Basics -->
 1. Search "scale set" in the top search bar and click **virtual machine scale set**.
@@ -448,10 +461,56 @@ The instance is marked unhealthy if:
 # How to SSH into an instance
 
 As you would normally grab the IP, you would need to find the public IP. As well as that, since the instance is now managed by a load balancer, the IP is different. 
-
 Once we have the IP, we also need to use `-p` to label a port input for our SSH command, followed by the instance port number. This ranges between 50000 and 50002.
+
+# Creating a dashboard
+1. Navigate to **Dashboard Hub**.
+2. Click **Create**.
+3. Then on the **Tile Gallery**, select what you would like to see. 
+4. You can also navigate to a resource, select **Monitoring** and pin data of your choosing.
+
+# How did load testing and the dashboard combined help us?
+
+## Allows you to identify performance issues
+Load testing simulates high traffic to the application, meaning you can identify high CPU or memory usage easily.
+
+## Monitoring Auto-Scale and Load Distribution
+Azure provides auto-scaling services that spin up more instances when a load increases. The dashboard allows you to visualise load distrubition and track scaling events.
+
+## Ensures high availability
+Load testing helps ensure that the appliation remains available even under heavy load. We can use the dashboard's alerts to send alerts when certain thresholds are met.
 
 # Creating an unhealthy instance in my dashboard
 
 Navigate to your operating system tab under your scale set. Edit user data and commit out the `sudo pm2 start app.js` line. Then, delete one of the instances and when it remakes one, it will do so with the new user data - creating an unhealthy, unworking instance.
 ![alt text](image-3.png)
+
+# Creating an alert rule
+1. Select the VM you wish to add an alert to and navigate to **Monitoring**.
+2. under "Alerts", you will ee a pop up to **enable** or **creatre alert rule**. Select **creatre alert rule**.
+
+### Condition -- >
+1. For **Signal name**, select **Percentage CPU**.
+2. Change the **Threshold** to your desired amount: **75**% in our case. 
+
+### Actions -->
+1. Select **Create action group**.
+2. Select **tech264** as the resource group. 
+3. Name the action group appropriately.
+
+### Details -->
+1. Set the severity.
+2. Add a rule name.
+
+### Notifications -->
+1. For **notification type**, select **Email/SMS/message/Push/Voice**.
+2. Name it appropriately.
+3. Select the pencil to edit details.
+4. Enable **email**, and input your desired email.
+
+### Tags -->
+1. Select owner and your name.
+
+### Review and Create -->
+1. **Ensure** you've selected the correct options.
+2. **Create** your shiny new VM scale set.
