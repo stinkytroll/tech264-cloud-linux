@@ -87,6 +87,7 @@
     - [--\> Subnet under Settings](#---subnet-under-settings)
     - [--\> Network Settings under Networking for your NVA](#---network-settings-under-networking-for-your-nva)
     - [Now, we have to enable it on Linux.](#now-we-have-to-enable-it-on-linux)
+    - [Creating IP Table Rules](#creating-ip-table-rules)
 - [What is an availability set? How do they work? Advantages/disadvantages?](#what-is-an-availability-set-how-do-they-work-advantagesdisadvantages)
 - [What is an availability zone? Why superior to an availability set? Disadvantages?](#what-is-an-availability-zone-why-superior-to-an-availability-set-disadvantages)
 - [What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?](#what-is-a-virtual-machine-scale-set-what-type-of-scaling-does-it-do-how-does-it-work-limitations)
@@ -709,15 +710,103 @@ Now we need to associate the route table to where the traffic comes out of.
 2. Enable **IP forwarding** and click **Apply**.
 
 ### Now, we have to enable it on Linux.
+***Remember!** you need to update and upgrade on new VMs.*
 
 1. **SSH** into your **NVA**. 
 2. Input `sysctl net.ipv4.ip_foward` to check if IP forwarding is enabled. If it reads **0**, it's false.
 3. Input `sudo nano /etc/sysctl.conf` to enter the config file where we can enable it.
 4. You will need to uncomment the line to enable it. Ensure you do the correct **IPv type**. In our case, it's **IPv4**.
   ![alt text](image.png)
-5. If you run another check, it'll read as 0 still. So, we need to apply to configuration file changes by reloading it. We can use `sudo sysctl -p`. It will then print that the setting has been changed. 
+1. If you run another check, it'll read as 0 still. So, we need to apply to configuration file changes by reloading it. We can use `sudo sysctl -p`. It will then print that the setting has been changed. 
 
 If your `ping (DB Private IP)` command was running on another window, you'll see that it has resumed, meaning the packets are now being forwarded to the DB VM through the NVA. This also shows that the route table is working correctly.
+
+### Creating IP Table Rules
+We need a script that will contain the rules we're going to set. SSH into your NVA.
+
+1. Create a file called `nano config-ip-tables.sh`, where will write the script. 
+2. Write the script.
+```
+#!/bin/bash
+ 
+# configure iptables
+ 
+echo "Configuring iptables..."
+ 
+# Allow all incoming and outgoing traffic on the loopback interface (localhost)
+sudo iptables -A INPUT -i lo -j ACCEPT
+sudo iptables -A OUTPUT -o lo -j ACCEPT
+ 
+# Allow incoming traffic that is part of an established connection or related to an established connection
+sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+ 
+# Allow outgoing traffic that is part of an established connection
+sudo iptables -A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+ 
+# Drop any incoming packets that are in an invalid state
+sudo iptables -A INPUT -m state --state INVALID -j DROP
+ 
+# Allow incoming SSH traffic on port 22 for new and established connections
+sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+# Allow outgoing SSH traffic on port 22 for established connections
+sudo iptables -A OUTPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+ 
+# uncomment the following lines if want allow SSH into NVA only through the public subnet (app VM as a jumpbox)
+# this must be done once the NVA's public IP address is removed
+#sudo iptables -A INPUT -p tcp -s 10.0.2.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+#sudo iptables -A OUTPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+ 
+# uncomment the following lines if want allow SSH to other servers using the NVA as a jumpbox
+# if need to make outgoing SSH connections with other servers from NVA
+#sudo iptables -A OUTPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+#sudo iptables -A INPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+ 
+# Allow TCP traffic from the source subnet (10.0.2.0/24) to the destination subnet (10.0.4.0/24) on port 27017
+sudo iptables -A FORWARD -p tcp -s 10.0.2.0/24 -d 10.0.4.0/24 --destination-port 27017 -m tcp -j ACCEPT
+ 
+# Allow ICMP traffic (ping) from the source subnet (10.0.2.0/24) to the destination subnet (10.0.4.0/24) for new and established connections
+sudo iptables -A FORWARD -p icmp -s 10.0.2.0/24 -d 10.0.4.0/24 -m state --state NEW,ESTABLISHED -j ACCEPT
+ 
+# Set the default policy for incoming packets to DROP
+sudo iptables -P INPUT DROP
+ 
+# Set the default policy for forwarded packets to DROP
+sudo iptables -P FORWARD DROP
+ 
+echo "Done!"
+echo ""
+ 
+# make iptables rules persistent
+# it will ask for user input by default
+ 
+echo "Make iptables rules persistent..."
+sudo DEBIAN_FRONTEND=noninteractive apt install iptables-persistent -y
+echo "Done!"
+echo ""
+```
+
+***Sidenote! What these flags / options mean:***
+
+`-A` : Stands for "Append." It adds a new rule to the end of a specified chain (e.g., INPUT, OUTPUT, FORWARD).
+
+`-i` : Stands for "Input interface." It specifies the network interface for incoming traffic.
+
+`-o` : Stands for "Output interface." It specifies the network interface for outgoing traffic.
+
+`-p` : Stands for "Protocol." It specifies the protocol used (e.g., TCP, UDP, ICMP).
+
+`--dport` : Stands for "Destination port." It specifies the port number for incoming traffic.
+
+`--sport` : Stands for "Source port." It specifies the port number for outgoing traffic.
+
+`-m` : Stands for "Match." It specifies a module that provides additional matching criteria (e.g., state, conntrack).
+
+`--state` : Used with the -m state module to specify the state of the connection (e.g., NEW, ESTABLISHED, RELATED, INVALID).
+
+`-j` : Stands for "Jump." It specifies the target action to take when a rule matches (e.g., ACCEPT, DROP, REJECT).
+
+3. Grant yourself execute permissions using `chmod +x config-ip-tables.sh`. You can `ls` and see if it's green. If it is, you can execute it.
+4. Run your script with `./config-ip-tables.sh`.
 
 # What is an availability set? How do they work? Advantages/disadvantages?
 An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events, meaning they're distributed across fault domains.
