@@ -87,7 +87,9 @@
     - [--\> Subnet under Settings](#---subnet-under-settings)
     - [--\> Network Settings under Networking for your NVA](#---network-settings-under-networking-for-your-nva)
     - [Now, we have to enable it on Linux.](#now-we-have-to-enable-it-on-linux)
-    - [Creating IP Table Rules](#creating-ip-table-rules)
+  - [Creating IP Table Rules](#creating-ip-table-rules)
+  - [Set Network Security Group Rules](#set-network-security-group-rules)
+  - [Create a rule to deny everything else](#create-a-rule-to-deny-everything-else)
 - [What is an availability set? How do they work? Advantages/disadvantages?](#what-is-an-availability-set-how-do-they-work-advantagesdisadvantages)
 - [What is an availability zone? Why superior to an availability set? Disadvantages?](#what-is-an-availability-zone-why-superior-to-an-availability-set-disadvantages)
 - [What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?](#what-is-a-virtual-machine-scale-set-what-type-of-scaling-does-it-do-how-does-it-work-limitations)
@@ -716,12 +718,14 @@ Now we need to associate the route table to where the traffic comes out of.
 2. Input `sysctl net.ipv4.ip_foward` to check if IP forwarding is enabled. If it reads **0**, it's false.
 3. Input `sudo nano /etc/sysctl.conf` to enter the config file where we can enable it.
 4. You will need to uncomment the line to enable it. Ensure you do the correct **IPv type**. In our case, it's **IPv4**.
-  ![alt text](image.png)
-1. If you run another check, it'll read as 0 still. So, we need to apply to configuration file changes by reloading it. We can use `sudo sysctl -p`. It will then print that the setting has been changed. 
+
+  ![alt text](images/image7.png)
+
+5. If you run another check, it'll read as 0 still. So, we need to apply to configuration file changes by reloading it. We can use `sudo sysctl -p`. It will then print that the setting has been changed. 
 
 If your `ping (DB Private IP)` command was running on another window, you'll see that it has resumed, meaning the packets are now being forwarded to the DB VM through the NVA. This also shows that the route table is working correctly.
 
-### Creating IP Table Rules
+## Creating IP Table Rules
 We need a script that will contain the rules we're going to set. SSH into your NVA.
 
 1. Create a file called `nano config-ip-tables.sh`, where will write the script. 
@@ -807,6 +811,23 @@ echo ""
 
 3. Grant yourself execute permissions using `chmod +x config-ip-tables.sh`. You can `ls` and see if it's green. If it is, you can execute it.
 4. Run your script with `./config-ip-tables.sh`.
+
+## Set Network Security Group Rules
+1. Navigate to your **DB virtual machine**.
+2. Go to **Network Settings** under **Networking**.
+3. Click the `tech264-kagan-in-3-subnet-vnet-vm-nsg` link next to **Network security group**.
+4. Go to **inbound port rules** and click **Add**.
+5. Under **Source**, select **IP addresses**.
+6. Under **Source IP addresses/CIDR ranges**, input the **public subnet IP** `10.0.2.0/24`.
+7. Change the service to MongoDB.
+8. Change the name appropriately. 
+
+## Create a rule to deny everything else
+1. **Add** another rule.
+2. Input a `*` to the **destination port ranges**.
+3. Change the priority to `500`.
+
+*That's it! You've officially secured your app with a DMZ layer. Good stuff.*
 
 # What is an availability set? How do they work? Advantages/disadvantages?
 An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events, meaning they're distributed across fault domains.
