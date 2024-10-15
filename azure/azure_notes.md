@@ -71,17 +71,20 @@
     - [--\> Review and Create](#---review-and-create-3)
   - [FIRST OF 3: Create Database VM](#first-of-3-create-database-vm)
     - [--\> Basics](#---basics-3)
+    - [--\> Networking](#---networking-2)
     - [--\> Review and Create](#---review-and-create-4)
   - [SECOND OF 3: Create the App VM](#second-of-3-create-the-app-vm)
     - [--\> Basics](#---basics-4)
-    - [--\> Networking](#---networking-2)
+    - [--\> Networking](#---networking-3)
     - [--\> Advanced](#---advanced-1)
     - [--\> Review and Create](#---review-and-create-5)
   - [THIRD OF 3: Create the NVA VM](#third-of-3-create-the-nva-vm)
     - [--\> Basics](#---basics-5)
-    - [--\> Networking](#---networking-3)
+    - [--\> Networking](#---networking-4)
     - [--\> Review and Create](#---review-and-create-6)
   - [Route Tables](#route-tables)
+    - [--\> Basics](#---basics-6)
+    - [--\> Tags](#---tags-4)
     - [--\> Review and Create](#---review-and-create-7)
     - [--\> Routes under Settings](#---routes-under-settings)
     - [--\> Subnet under Settings](#---subnet-under-settings)
@@ -614,8 +617,8 @@ stress --cpu 4 --timeout 300
 
 ### --> IP addresses
 1. Edit **default subnet**, rename to **public-subnet** and change **starting address** to `10.0.2.0`.
-2. Add a new subnet, rename to dmz-subnet and change **starting address** to `10.0.3.0`.
-3. Add another new subnet for private subnet, rename to private-subnet and change **starting address** to` 10.0.4.0` and enable **private subnet**. This means that whatever you put in this subnet cannot access the internet.
+2. Add a new subnet, rename to **dmz-subnet** and change **starting address** to `10.0.3.0`.
+3. Add another new subnet for private subnet, rename to private-subnet and change **starting address** to` 10.0.4.0` and enable **private-subnet**. This means that whatever you put in this subnet cannot access the internet.
 
 ### --> Tags 
 1. Select owner and your name.
@@ -631,9 +634,11 @@ Follow the usual **DATABASE** steps with these slight changes...
 
 ### --> Basics
 1. Select **zone 3** for avaialiblity zone assigned to the DB.
-2. Select the previously created virtual network and select the private subnet. 10.0.4.0
-3. Disable public IP address.
-4. Only enable **SSH port**.
+
+### --> Networking
+1. Select the previously created virtual network and select the **private subnet** (10.0.4.0).
+2. Disable public IP address.
+3. Only enable **SSH port**.
 
 ### --> Review and Create 
 1. **Ensure** you've selected the correct options.
@@ -642,7 +647,7 @@ Follow the usual **DATABASE** steps with these slight changes...
 Once this is done, we create the application that will connect to the database and display the information. 
 
 ## SECOND OF 3: Create the App VM
-Follow the usual **APP** steps with these slight changes... 
+Follow the usual **APP** steps with these slight changes... (using our own image of course)
 
 ### --> Basics
 1. Select **zone 1** for avaialiblity zone assigned to the App.
@@ -679,11 +684,18 @@ Now we create the VM for the Network Virtual Appliance (NVA). This performs netw
 2. **Create** your shiny new NVA.
 
 ## Route Tables
-Used to define how network traffic is directed within a network and between different networks. Let's create one.
+Used to define how network traffic is directed within a network and between different machines. Let's create one.
 
-1. Search for **Route Table** in the search bar and select it.
-2. Select **tech264** resource group.
-3. For **Region**, Select **UK South**.
+1. Search for **Route Tables** in the search bar and select it.
+2. Click **create**.
+
+### --> Basics 
+1. Select **tech264** resource group.
+2. For **Region**, Select **UK South**.
+3. Give it a name.
+
+### --> Tags
+ 1. Select owner and your name.
 
 ### --> Review and Create 
 1. **Ensure** you've selected the correct options. There isn't much here, really.
@@ -705,8 +717,8 @@ Now we need to associate the route table to where the traffic comes out of.
 
 ### --> Subnet under Settings
 1. Click **Associate**.
-1. Choose your virtual network.
-2. Select the **public-subnet**.
+2. Choose your virtual network.
+. Select the **public-subnet**.
  
 ### --> Network Settings under Networking for your NVA VM
 1. Select the **Network Interface / IP configuration** link. 
