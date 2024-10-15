@@ -610,10 +610,10 @@ stress --cpu 4 --timeout 300
 ## Set up the Virtual Network
 
 ### --> Basics
-1. Name appropriately (tech264-name-in-3-subnet-vnet-db-vm)
+1. Name appropriately (tech264-name-in-3-subnet-vnet)
 
 ### --> IP addresses
-1. Edit **default subnet**, rename to **public-subnet** and change **starting address** to `10.0.1.0`.
+1. Edit **default subnet**, rename to **public-subnet** and change **starting address** to `10.0.2.0`.
 2. Add a new subnet, rename to dmz-subnet and change **starting address** to `10.0.3.0`.
 3. Add another new subnet for private subnet, rename to private-subnet and change **starting address** to` 10.0.4.0` and enable **private subnet**. This means that whatever you put in this subnet cannot access the internet.
 
@@ -827,7 +827,7 @@ echo ""
 2. Input a `*` to the **destination port ranges**.
 3. Change the priority to `500`.
 
-*That's it! You've officially secured your app with a DMZ layer. Good stuff.*
+*That's it! You've officially secured your app with a DMZ layer. Good stuff. Now delete it all.*
 
 # What is an availability set? How do they work? Advantages/disadvantages?
 An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events, meaning they're distributed across fault domains.
@@ -847,7 +847,6 @@ They are superior because...
 
 **Disadvantages**:
 - **Latency Issues**: Since VMs are located in different regions, you may experience higher latency depending on which VM your traffic is being passed to by the load balancer.
-
 
 # What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?
 **A virtual machine scale set**  is a resource that allows you to automatically create and manage a group of identical, load-balanced VMs. It's designed to automatically scale in response to demand.
