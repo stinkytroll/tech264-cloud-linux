@@ -62,6 +62,7 @@
   - [Deleting Alert and Action Group](#deleting-alert-and-action-group)
     - [Alert](#alert)
 - [Action Group](#action-group)
+- [Reconnecting your APP and DB after using user data](#reconnecting-your-app-and-db-after-using-user-data)
 - [Re-create the 3-subnet architecture to make the database private](#re-create-the-3-subnet-architecture-to-make-the-database-private)
   - [Set up the Virtual Network](#set-up-the-virtual-network)
     - [--\> Basics](#---basics-2)
@@ -84,7 +85,8 @@
     - [--\> Review and Create](#---review-and-create-7)
     - [--\> Routes under Settings](#---routes-under-settings)
     - [--\> Subnet under Settings](#---subnet-under-settings)
-    - [TO BE CONTINUED...](#to-be-continued)
+    - [--\> Network Settings under Networking for your NVA](#---network-settings-under-networking-for-your-nva)
+    - [Now, we have to enable it on Linux.](#now-we-have-to-enable-it-on-linux)
 - [What is an availability set? How do they work? Advantages/disadvantages?](#what-is-an-availability-set-how-do-they-work-advantagesdisadvantages)
 - [What is an availability zone? Why superior to an availability set? Disadvantages?](#what-is-an-availability-zone-why-superior-to-an-availability-set-disadvantages)
 - [What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?](#what-is-a-virtual-machine-scale-set-what-type-of-scaling-does-it-do-how-does-it-work-limitations)
@@ -589,6 +591,14 @@ stress --cpu 4 --timeout 300
 
 ![alt text](images/image-4.png)
 
+# Reconnecting your APP and DB after using user data
+1. SSH into your app.
+2. Input `export "DB_HOST=mongodb://10.0.4.4:27017/posts"`. 
+3. Input cd `/repo/app`
+4. Input `sudo -E pm2 start app`.
+   - the `-E` is used to preserve the user’s environment variables when running a command with `sudo`.
+
+
 # Re-create the 3-subnet architecture to make the database private
 ![alt text](images/image-5.png)
 
@@ -666,6 +676,7 @@ Now we create the VM for the Network Virtual Appliance (NVA). This performs netw
 2. **Create** your shiny new NVA.
 
 ## Route Tables
+Used to define how network traffic is directed within a network and between different networks.
 
 1. Select **tech264** resource group.
 2. For **Region**, Select **UK South**.
@@ -689,13 +700,27 @@ Once it's created, navigate to the resource.
 Now we need to associate the route table to where the traffic comes out of.
 
 ### --> Subnet under Settings
+1. Click **Associate**.
 1. Choose your virtual network.
 2. Select the **public-subnet**.
+ 
+### --> Network Settings under Networking for your NVA
+1. Select the **Network Interface / IP configuration** link. 
+2. Enable **IP forwarding** and click **Apply**.
 
-### TO BE CONTINUED...
+### Now, we have to enable it on Linux.
+
+1. **SSH** into your **NVA**. 
+2. Input `sysctl net.ipv4.ip_foward` to check if IP forwarding is enabled. If it reads **0**, it's false.
+3. Input `sudo nano /etc/sysctl.conf` to enter the config file where we can enable it.
+4. You will need to uncomment the line to enable it. Ensure you do the correct **IPv type**. In our case, it's **IPv4**.
+  ![alt text](image.png)
+5. If you run another check, it'll read as 0 still. So, we need to apply to configuration file changes by reloading it. We can use `sudo sysctl -p`. It will then print that the setting has been changed. 
+
+If your `ping (DB Private IP)` command was running on another window, you'll see that it has resumed, meaning the packets are now being forwarded to the DB VM through the NVA. This also shows that the route table is working correctly.
 
 # What is an availability set? How do they work? Advantages/disadvantages?
-An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events.
+An Availability Set is a logical grouping of virtual machines that helps ensure that your VMs remain available during hardware failures, updates, or maintenance events, meaning they're distributed across fault domains.
 
 **Advantages**: 
 - **Improved Uptime**: Ensures that at least one VM remains operational during hardware failures or planned maintenance.
@@ -724,5 +749,7 @@ It does **horizontal scaling**:
 and **vertical scaling**:
 - **Scale Up**: This increases the resources (CPU, memory, disk) allocated to the existing VMs without changing the number of instances.
 - **Scale Down**: This decreases the resources allocated to the VMs when the high-performance requirements are no longer necessary.
+
+It has resource limits. A single scale set can only handle a certain amount of VMs, which requires high-level planning for it to function correctly.
 
 ![alt text](images/image-6.png)
