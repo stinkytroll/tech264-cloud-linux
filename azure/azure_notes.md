@@ -69,15 +69,15 @@
     - [--\> IP addresses](#---ip-addresses)
     - [--\> Tags](#---tags-3)
     - [--\> Review and Create](#---review-and-create-3)
-  - [Create Database VM](#create-database-vm)
+  - [FIRST OF 3: Create Database VM](#first-of-3-create-database-vm)
     - [--\> Basics](#---basics-3)
     - [--\> Review and Create](#---review-and-create-4)
-  - [Create the App VM](#create-the-app-vm)
+  - [SECOND OF 3: Create the App VM](#second-of-3-create-the-app-vm)
     - [--\> Basics](#---basics-4)
     - [--\> Networking](#---networking-2)
     - [--\> Advanced](#---advanced-1)
     - [--\> Review and Create](#---review-and-create-5)
-  - [Create a virtual machine for the NVA](#create-a-virtual-machine-for-the-nva)
+  - [THIRD OF 3: Create the NVA VM](#third-of-3-create-the-nva-vm)
     - [--\> Basics](#---basics-5)
     - [--\> Networking](#---networking-3)
     - [--\> Review and Create](#---review-and-create-6)
@@ -85,7 +85,7 @@
     - [--\> Review and Create](#---review-and-create-7)
     - [--\> Routes under Settings](#---routes-under-settings)
     - [--\> Subnet under Settings](#---subnet-under-settings)
-    - [--\> Network Settings under Networking for your NVA](#---network-settings-under-networking-for-your-nva)
+    - [--\> Network Settings under Networking for your NVA VM](#---network-settings-under-networking-for-your-nva-vm)
     - [Now, we have to enable it on Linux.](#now-we-have-to-enable-it-on-linux)
   - [Creating IP Table Rules](#creating-ip-table-rules)
   - [Set Network Security Group Rules](#set-network-security-group-rules)
@@ -605,7 +605,7 @@ stress --cpu 4 --timeout 300
 # Re-create the 3-subnet architecture to make the database private
 ![alt text](images/image-5.png)
 
-3 subnet architecure is more secure than 2 tier architecture as it adds a layer of securtiy and control. The DMZ subnet acts as an intermdiary between the public and private subnets. It contains NVAs such as load balancer or fiewall, which inspect traffic before allowing it to pass between the public and private subnets. Think of it as a doorman at a club. If the big fella doesn't like what he (or she, go girl) sees, he's not letting you in. 
+3 subnet architecture is more secure than 2 tier architecture as it adds a layer of security and control. The DMZ subnet acts as an intermediary between the public and private subnets. It contains NVAs such as load balancer or firewall, which inspect traffic before allowing it to pass between the public and private subnets. Think of it as a doorman at a club. If the big fella doesn't like what he (or she, go girl) sees, he's not letting you in.
 
 ## Set up the Virtual Network
 
@@ -624,7 +624,7 @@ stress --cpu 4 --timeout 300
 1. **Ensure** you've selected the correct options.
 2. **Create** your shiny new secure virtual network.
 
-## Create Database VM
+## FIRST OF 3: Create Database VM
 Now we create a virtual machine using our database image. We start with the database as we follow the 2-tier architecture sructure.
 
 Follow the usual **DATABASE** steps with these slight changes... 
@@ -641,7 +641,7 @@ Follow the usual **DATABASE** steps with these slight changes...
 
 Once this is done, we create the application that will connect to the database and display the information. 
 
-## Create the App VM
+## SECOND OF 3: Create the App VM
 Follow the usual **APP** steps with these slight changes... 
 
 ### --> Basics
@@ -660,7 +660,7 @@ Follow the usual **APP** steps with these slight changes...
 
 We can use `ping 10.0.4.4` to ensure the connection between app and the database have been established and are working. To do this, `ssh` into the app VM and input the command.
 
-## Create a virtual machine for the NVA
+## THIRD OF 3: Create the NVA VM
 Now we create the VM for the Network Virtual Appliance (NVA). This performs network functions like routing, firewalling, trafic filtering and load balancing. 
 
 ### --> Basics
@@ -679,13 +679,14 @@ Now we create the VM for the Network Virtual Appliance (NVA). This performs netw
 2. **Create** your shiny new NVA.
 
 ## Route Tables
-Used to define how network traffic is directed within a network and between different networks.
+Used to define how network traffic is directed within a network and between different networks. Let's create one.
 
-1. Select **tech264** resource group.
-2. For **Region**, Select **UK South**.
+1. Search for **Route Table** in the search bar and select it.
+2. Select **tech264** resource group.
+3. For **Region**, Select **UK South**.
 
 ### --> Review and Create 
-1. **Ensure** you've selected the correct options. There isn't really much here, really.
+1. **Ensure** you've selected the correct options. There isn't much here, really.
 2. **Create** your shiny new Route table.
 
 Once it's created, navigate to the resource. 
@@ -707,7 +708,7 @@ Now we need to associate the route table to where the traffic comes out of.
 1. Choose your virtual network.
 2. Select the **public-subnet**.
  
-### --> Network Settings under Networking for your NVA
+### --> Network Settings under Networking for your NVA VM
 1. Select the **Network Interface / IP configuration** link. 
 2. Enable **IP forwarding** and click **Apply**.
 
