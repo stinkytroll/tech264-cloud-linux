@@ -15,11 +15,11 @@
     - [Steps to Create an SSH Key Pair (Using GitBash)](#steps-to-create-an-ssh-key-pair-using-gitbash)
 - [Plan to create a Virtual Machine](#plan-to-create-a-virtual-machine)
 - [How to Create a Virtual Machine (VM)](#how-to-create-a-virtual-machine-vm)
-  - [--\> Basics](#---basics)
-  - [--\> Disks](#---disks)
-  - [--\> Networking](#---networking)
-  - [--\> Tags](#---tags)
-  - [--\> Review and Create](#---review-and-create)
+    - [--\> Basics](#---basics)
+    - [--\> Disks](#---disks)
+    - [--\> Networking](#---networking)
+    - [--\> Tags](#---tags)
+    - [--\> Review and Create](#---review-and-create)
 - [How to Stop Your Virtual Machine](#how-to-stop-your-virtual-machine)
 - [Connecting Your Virtual Machine](#connecting-your-virtual-machine)
 - [How to add a port](#how-to-add-a-port)
@@ -59,6 +59,9 @@
     - [--\> Tags](#---tags-2)
     - [--\> Review and Create](#---review-and-create-2)
   - [Triggering this alert rule.](#triggering-this-alert-rule)
+  - [Deleting Alert and Action Group](#deleting-alert-and-action-group)
+    - [Alert](#alert)
+- [Action Group](#action-group)
 - [Re-create the 3-subnet architecture to make the database private](#re-create-the-3-subnet-architecture-to-make-the-database-private)
   - [Set up the Virtual Network](#set-up-the-virtual-network)
     - [--\> Basics](#---basics-2)
@@ -285,7 +288,7 @@ You can then paste this into your SSH key.
 
 # How to Create a Virtual Machine (VM)
 
-## --> Basics
+### --> Basics
 1. **Search** for Virtual Machine on the Azure Portal. Create a new VM.
 2. **Assign** resource group `(tech264)`.
 3. **Name** the VM (e.g tech264-name...)
@@ -299,18 +302,18 @@ You can then paste this into your SSH key.
 11. Select **your** Stored key (e.g tech264..).
 12. Select `HTTP (80)` under **select inbound ports**. Both `SHH (22)` and `HTTP (80)` should be selected. You need to set up a certificate to use `HHTPS (443)`.
 
-## --> Disks
+### --> Disks
 1. Change OS Disk type to `Standard SSD (locally redundant storage)`.
 
-## --> Networking
+### --> Networking
 1. Change the **virtual network** to your own one, as it will default alphabetically.
 2. Change **subnet** to `public-subnet`.
 3. Enable **Delete public IP and NIC when VM is deleted**. Automates this just in case you forget to do it yourself.
 
-## --> Tags
+### --> Tags
 1. Select `Owner : (your name)`.
 
-## --> Review and Create
+### --> Review and Create
 1. Make sure all your details are correct.
 2. Once you click create, it will deploy until completion. 
 
@@ -570,6 +573,19 @@ sudo apt-get install stress
 # This runs 4 workers that consume CPU for 300 seconds
 stress --cpu 4 --timeout 300
 ```
+
+## Deleting Alert and Action Group
+### Alert
+1. Go to your alerts section.
+2. Click **Alert rules**.
+3. Click the three dots for the alert you wish to **delete**.
+4. Click **delete** and then confirm the deletion.
+
+# Action Group
+1. Go to your alerts section.
+2. Click **action groups**.
+3. **Tick** the box for the group you wish to delete.
+4. Click the **delete** option in the bar above and confirm deletion.
 
 ![alt text](images/image-4.png)
 
