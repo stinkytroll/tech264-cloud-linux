@@ -93,7 +93,7 @@
 - **Regions**: Azure is divided into geographic **regions**, each containing one or more **data centers**. These **regions** are designed to provide** redundancy** and **high availability**, enabling **users** to choose a location closest to their users for optimal performance.
 - **Availability Zones**: These are separate physical locations within a **region**, designed to be **isolated from failures** in other zones. Each zone has independent power, cooling, and networking, which increases resilience against outages.
 
-![alt text](availabilityzonesvsregions.png)
+![alt text](images/availabilityzonesvsregions.png)
 
 ## How is Azure structured/organised?
 - **Resource Groups**: Logical containers for Azure resources (VMs, databases, etc.) to manage permissions and policies collectively.
@@ -153,7 +153,7 @@ The Azure Pricing Calculator helps users estimate the cost of using Azure servic
 
 # Virtual Machine Network Diagram
 
-![alt text](vmdiagram.png)
+![alt text](images/vmdiagram.png)
 
 **NSG Rule – Allow SSH**
 Allows inbound SSH traffic (port 22) for remote management of the VM.
@@ -232,7 +232,7 @@ A Virtual Network (VNet) in Azure allows resources like virtual machines (VMs), 
 7. **Deployment:**
    - Wait for the VNet deployment to finish. Once deployed, you can manage the VNet through the Azure Portal.
   
-![alt text](subsetdiagram.png)
+![alt text](images/subsetdiagram.png)
 
 ## 2. Creating a New SSH Key Pair for Azure Virtual Machines
 
@@ -394,13 +394,13 @@ If we're not SSHing into it for a long time, we could...
 6. click your dashboard.
 
 # How to counteract High CPU Load
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 # Scaling a VM
-![alt text](image.png)
+![alt text](images/image.png)
 
 # Architecture for an Azure VM Scale Set
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 # Creating a VM scale set
 A scale set lets you create and manage a group of load balanced VMs. The VMs are identical and automatically scaling.
@@ -526,7 +526,7 @@ If we have 3 availability regions and a minimum of 2 instances, we can ensure hi
 # Creating an unhealthy instance in my dashboard
 
 Navigate to your operating system tab under your scale set. Edit user data and commit out the `sudo pm2 start app.js` line. Then, delete one of the instances and when it remakes one, it will do so with the new user data - creating an unhealthy, unworking instance.
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 # Creating an alert rule
 1. Select the VM you wish to add an alert to and navigate to **Monitoring**.
@@ -571,10 +571,10 @@ sudo apt-get install stress
 stress --cpu 4 --timeout 300
 ```
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 # Re-create the 3-subnet architecture to make the database private
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 3 subnet architecure is more secure than 2 tier architecture as it adds a layer of securtiy and control. The DMZ subnet acts as an intermdiary between the public and private subnets. It contains NVAs such as load balancer or fiewall, which inspect traffic before allowing it to pass between the public and private subnets. Think of it as a doorman at a club. If the big fella doesn't like what he (or she, go girl) sees, he's not letting you in. 
 
@@ -683,21 +683,21 @@ An Availability Set is a logical grouping of virtual machines that helps ensure 
 
 **Advantages**: 
 - **Improved Uptime**: Ensures that at least one VM remains operational during hardware failures or planned maintenance.
-- **Cost-effective**: Suitable for applications that don’t require extremely high availability but still benefit from a higher SLA than standalone VMs.
+- **Cost-effective**: Suitable for applications that don't require extremely high availability but still benefit from a higher service level agreement than standalone VMs.
 
 **Disadvantages**:
 - **Single Data Center**: All VMs in an Availability Set are in the same Azure region and data center, making them vulnerable to data center-wide failures.
-- **No Zone-level Redundancy**: Availability Sets don’t protect against regional or zone-level outages. For protection against broader failures, Availability Zones should be considered.
+- **No Zone-level Redundancy**: Availability Sets don't protect against regional or zone-level outages. For protection against broader failures, Availability Zones should be considered.
 
 # What is an availability zone? Why superior to an availability set? Disadvantages?
 An Availability Zone is a physically separate zone within an Azure region. Each zone has its own power, cooling, and networking, making it isolated from other zones in the region.
 
 They are superior because...
 - **Higher Fault Tolerance**: Availability Zones protect against data center-level failures. VMs placed in different zones are isolated from each other geographically, offering protection against natural disasters or regional failures.
-- **Zone-level Redundancy**: With Availability Zones, Azure guarantees a 99.99% SLA for VMs.
+- **Zone-level Redundancy**: With Availability Zones, Azure guarantees a 99.99% service level agreement for VMs.
 
 # What is a Virtual Machine Scale Set? What type of scaling does it do? How does it work? Limitations?
-**A virtual machine scale set**  is a resource that allows you to automatically create and manage a group of identical, load-balanced VMs. It’s designed to automatically scale in response to demand.
+**A virtual machine scale set**  is a resource that allows you to automatically create and manage a group of identical, load-balanced VMs. It's designed to automatically scale in response to demand.
 
 It does **horizontal scaling**:
 - **Scale Out**: This adds more instances of virtual machines (VMs) to handle increased demand.
@@ -706,3 +706,5 @@ It does **horizontal scaling**:
 and **vertical scaling**:
 - **Scale Up**: This increases the resources (CPU, memory, disk) allocated to the existing VMs without changing the number of instances.
 - **Scale Down**: This decreases the resources allocated to the VMs when the high-performance requirements are no longer necessary.
+
+![alt text](images/image-6.png)
