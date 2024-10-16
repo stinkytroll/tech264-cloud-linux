@@ -453,7 +453,7 @@ The | character is used as a delimiter for the parts of the substitution command
 
 # How to connect the VM app after you stop it and start again - using  SSH key
 1. Connect the VM with SSH key
-2. To see the repo/app- need to be in root directory  -> cd /repo/app
+2. To see the repo/app -> need to be in root directory  -> cd /repo/app
 3. Stop all processes -> pm2 stop all
 4. To start the app -> sudo pm2 start app.js
 

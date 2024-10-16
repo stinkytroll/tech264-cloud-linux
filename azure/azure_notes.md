@@ -602,7 +602,7 @@ stress --cpu 4 --timeout 300
 2. Input `export "DB_HOST=mongodb://10.0.4.4:27017/posts"`. 
 3. Input cd `/repo/app`
 4. Input `sudo -E pm2 start app`.
-   - the `-E` is used to preserve the user’s environment variables when running a command with `sudo`.
+   - the `-E` is used to preserve the user’s environment variables when running a command with `sudo`, as `sudo` runs with the **root** privellages, not the **user** ones.
 
 
 # Re-create the 3-subnet architecture to make the database private
