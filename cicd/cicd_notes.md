@@ -68,11 +68,10 @@ Jenkins ability to automate the CI/CD pipeline helps to reduce human error by au
 - **Improved developer experience**: Developers can focus on building features rather than manual integrations or deployments.
 
 # Create a general diagram of CI/CD
-![alt text](image.png)
+![alt text](images/image.png)
 
 # Understand SDLC workflow: plan, design, develop, deploy
 1. **Plan**: Define the project goals, scope, and requirements. This includes gathering information from stakeholders to set clear objectives.
 2. **Design**: Architect the solution, including software design, user interfaces, and database schemas.
 3. **Develop**: The actual coding phase where developers implement the required features.
 3. **Deploy**: The process of releasing the code into production, making it available to users.
-
