@@ -7,18 +7,31 @@
 6. Insert what you printed and save.
 
 ### --> On your Terminal Window
-1. Input ``` eval `ssh-agent -s` ``` (yes, including the backticks inside!) to start the SSH agent.
+1. Input ``` eval `ssh-agent -s` ``` (yes, including the backticks inside!) to start the SSH agent, configuring the **CURRRENT** terminal to use it. This agent manages SSH keys during the session.
 2. `ssh-add` your `private key`. This will add your identity.
 3. **Test** your connection to GitHub using `ssh -T git@github.com`.
 4. You will either get a prompt to then type `yes`, or it will say you're successfuly authenticated. This works **ANYWHERE** in your directory.
 
+*Note! the SSH agent will no longer be accessible unless you restart the agent and re-add your key. This is because each new terminal session starts with a fresh environment and does not retain the environment variables.*
+
+![alt text](image-4.png)
+
+*It doesn't work because the SSH agent no long has access. You have to restart the agent and re-add the key.*
+
 ## --> CD into your github folder
-1. Make a new directory for your GitHub repo in your github folder.
+1. Make a new directory for your GitHub repo in your github folder using `mkdir`.
 2. CD into this new directory.
 
-### --> Make a GitHub Repo
+### --> Back on the GitHub page for the repo
 1. Once created, change quick setup option from **HTTPS** to **SSH**.
 2. Follow the GitHub instructions on the page, ensuring that the GitHub link does **NOT** start with **HTTPS**. 
+3. Link the GitHub repo with your local machine's repo via the instructions (you will be using `git init`).
 
-# For if time push task
-![alt text](image.png)
+# Changing an EXISTING repo to HTTPS or SSH
+1. Open GitBash.
+2. Change the current working directory to your local project.
+3. List your existing remotes in order to get the name of the remote you want to change using `git remote -v`.
+4. Change your remote's URL with the `git remote set-url origin git@github.com:OWNER/REPOSITORY.git` command if it's **HTTPS** to **SSH**, and `git remote set-url origin https://github.com/OWNER/REPOSITORY.git` if it's **SSH** to **HTTPs**.
+5. Verify that the remote URL has changed by using `git remote -v`
+
+![alt text](image-3.png)
