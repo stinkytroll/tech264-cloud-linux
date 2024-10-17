@@ -64,8 +64,9 @@ az storage blob list \
 1. Create the app VM using the app image.
 2. Download Azure CLI.
 3. Create your container, following the steps to do so.
-4. And download the cat image using the `wget` command. 
+4. And download the cat image using the `wget -O newname.jpg url` command. 
 5. Use the `az upload` command to upload the image into the container. 
 6. Make Blob public in the configuration settings.
 7. Add the URL for the Blob in the HTML script under the `/repo/app/views/index.ejs` and edit the `img` line, replacing the sparta app with the link from the configuration settings.
 8. Refresh page and see your lovely cat.
+

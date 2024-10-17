@@ -1,4 +1,4 @@
-- [What is CI/ CD??](#what-is-ci-cd)
+- [What is CI/ CD?](#what-is-ci-cd)
     - [Benefits of CI](#benefits-of-ci)
     - [Benefits of CD](#benefits-of-cd)
   - [Difference between CD and CDE (Continous Deployment)](#difference-between-cd-and-cde-continous-deployment)
@@ -12,7 +12,7 @@
 - [Create a general diagram of CI/CD](#create-a-general-diagram-of-cicd)
 - [Understand SDLC workflow: plan, design, develop, deploy](#understand-sdlc-workflow-plan-design-develop-deploy)
 
-# What is CI/ CD??
+# What is CI/ CD?
 
 **CI**, or **Continous Integration**, refers to the practice of automating the integration of code changes from multiple contributors into a shared repository several times a day.
 
@@ -71,6 +71,8 @@ Jenkins ability to automate the CI/CD pipeline helps to reduce human error by au
 ![alt text](images/image.png)
 
 # Understand SDLC workflow: plan, design, develop, deploy
+Software development lifecycle process. 
+
 1. **Plan**: Define the project goals, scope, and requirements. This includes gathering information from stakeholders to set clear objectives.
 2. **Design**: Architect the solution, including software design, user interfaces, and database schemas.
 3. **Develop**: The actual coding phase where developers implement the required features.
