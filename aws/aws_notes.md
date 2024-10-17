@@ -31,7 +31,7 @@
 
 ### --> Network Settings
 1. Select **create security group**. *Remember, you need a **UNIQUE** security group for each VM.*
-2. Allow **SSH** traffic for the **Database** EC2, allow **SSH** & **HTTP** for **App** EC2.
+2. Allow **SSH** traffic for the **Database** instance, allow **SSH** & **HTTP** for **App** instance.
 3. Create a new subnet. For the **Database**, make it **private**. For the **App**, make it **public**.
 4. Edit IP for each one. Where in azure it was `10.0.1.0/24`, in AWS it is `172.31.1.0/24`. So you might want to use `172.31.2.0` for your **app**, and `172.31.3.0` for your **database**.
 
@@ -40,10 +40,10 @@
 2. Search for the NSG you wish to modify.
 3. Select it.
 4. Select **Edit inbound rules**.
-5. For the DB EC2's inbound rules, you need to have a **Custom TCP** type rule with MongoDB's port range `27017`. You can select an NSG to only allow connections from THAT source. Better security.
+5. For the DB instance's inbound rules, you need to have a **Custom TCP** type rule with MongoDB's port range `27017`. You can select an NSG to only allow connections from THAT source. Better security.
 
 ### --> Advanced details
-1. Locate user data and input the relative data for the **EC2**.
+1. Locate user data and input the relative data for the **instance**.
 
 ### --> Review
 1. Review your details then launch instance.
