@@ -7,7 +7,7 @@
 6. Insert what you printed and save.
 
 ### --> On your Terminal Window
-1. Input ``` eval `ssh-agent -s` ``` (yes, including the backticks inside!) to start the SSH agent, configuring the **CURRRENT** POWER shell terminal to use it. This agent manages SSH keys during the session.
+1. Input ``` eval `ssh-agent -s` ``` (yes, including the backticks inside!) to start the SSH agent, configuring the **CURRRENT** POWER shell terminal to use it. This agent manages SSH keys during the session. It creates the process called `SSH_AGENT_PID`.
 2. `ssh-add` your `private key`. This will add your identity.
 3. **Test** your connection to GitHub using `ssh -T git@github.com`.
 4. You will either get a prompt to then type `yes`, or it will say you're successfuly authenticated. This works **ANYWHERE** in your directory.
