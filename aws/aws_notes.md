@@ -7,6 +7,7 @@
     - [--\> Add Inbound Port Rules // Can be done after launch](#---add-inbound-port-rules--can-be-done-after-launch)
     - [--\> Advanced details](#---advanced-details)
     - [--\> Review](#---review)
+    - [Posts page data not displaying, but working?](#posts-page-data-not-displaying-but-working)
 
 
 # Deploying App in 2-tier architecture on AWS
@@ -46,3 +47,8 @@
 
 ### --> Review
 1. Review your details then launch instance.
+
+### Posts page data not displaying, but working?
+1. Don't forget to set your DB host variable with the private IP of the database. 
+2. Input `node seeds/seed.js` to repopulate the DB with data.
+3. Input `sudo -E pm2 start app.js`. This will get the data on the **posts** page to show.
