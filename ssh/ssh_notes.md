@@ -16,7 +16,6 @@
 
 ![alt text](image-4.png)
 
-*It doesn't work because the SSH agent no long has access. You have to restart the agent and re-add the key.*
 
 ## --> CD into your github folder
 1. Make a new directory for your GitHub repo in your github folder using `mkdir`.
@@ -33,5 +32,4 @@
 3. List your existing remotes in order to get the name of the remote you want to change using `git remote -v`.
 4. Change your remote's URL with the `git remote set-url origin git@github.com:OWNER/REPOSITORY.git` command if it's **HTTPS** to **SSH**, and `git remote set-url origin https://github.com/OWNER/REPOSITORY.git` if it's **SSH** to **HTTPs**.
 5. Verify that the remote URL has changed by using `git remote -v`
-
-![alt text](image-3.png)
+6. To verify further, attempt a `git pull` and you wal
