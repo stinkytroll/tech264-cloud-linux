@@ -11,7 +11,6 @@
 - [Why build a pipeline? Business value?](#why-build-a-pipeline-business-value)
 - [Diagram of CI/CD](#diagram-of-cicd)
 - [Understand SDLC workflow: plan, design, develop, deploy](#understand-sdlc-workflow-plan-design-develop-deploy)
-- [Jenkins Begins](#jenkins-begins)
 
 # What is CI/ CD?
 
@@ -79,55 +78,6 @@ Software development lifecycle process.
 3. **Develop**: The actual coding phase where developers implement the required features.
 3. **Deploy**: The process of releasing the code into production, making it available to users.
 
-# Jenkins Begins
-1. Select new item.
-![alt text](images/image.png)
 
-2. Enter a name for the project.
-
-![alt text](images/image-1.png)
-
-3. Select **Freestyle**. Click **Ok**.
-4. Enable **Discard old builds** and set it to a max of **5**. This means that up to 5 build history are kept in the record at a time.
-
-5. Let's add a build step.
-
-![alt text](images/image-2.png)
-
-6. Select execute shell, and in the input type `uname -a`.
-
-![alt text](images/image-7.png)
-
-7. Select build now on the right screen.
-
-![alt text](images/image-4.png)
-
-8. Once the build is complete, click the **build** to get more details. You can select the build number or date and time.
-
-![alt text](images/image-6.png)
-
-9.  Now select **Console Output** to see... the console output. It'll show the output from our `uname -a` command. It provides detailed information about the system's kernel and operating system.
-
-![alt text](images/image-5.png)
-
-We've repeated the process and made a second one, instead inputting `date` into the **execute shell**. Now, let's link two projects together.
-
-1. Go to the job you want to start with.
-2. Go to **Configureation**
 
 ![alt text](image.png)
-
-3. Scroll down to **Post-Build Actions**.
-4. Select **projects to build**.
-5. Input the name of the project you want to trigger after this first job has run successfully.
-
-![alt text](image-1.png)
-
-6. Click **save**.
-7. Select **build now** and wait for the build to finish running.
-8. Select the build under the history. You'll see it has run both, but you can only view the output for the second build if you're in that build's section.
-
-![alt text](image-2.png)
-
-You can select the hyper link to go straight the other project.
-
