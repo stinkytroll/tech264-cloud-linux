@@ -140,11 +140,12 @@ npm test
 
 ![alt text](images/payloadurl.png)
 
-4. Click **Add Webhook**. Done. It's that simple! Now, we need to get the Jenkins side set up.
+2. Click **Add Webhook**. Done. It's that simple! Now, we need to get the Jenkins side set up.
 
 ### --> Back to the configure screen of Job 1
 1. Find **Branches to build** and input `*/dev`. 
 2. Check **GitHub hook trigger for GITScm polling**.
+3. Add add a **Build Other Projects** and select **your Job 2**, so that it will run if Job 1 is successful.
 
 ![alt text](images/buildtriggers.png)
 
@@ -167,37 +168,80 @@ git merge origin/dev
 # Push the changes from local main branch to the GitHub repo
 git push origin main
 ```
+However... There is a more efficient way to do this using **Git Publisher**, a Jenkins plugin:
 
-1. Ensure you have **SSH Agent** enabled. It will need this for authentication.
+1. Remove the **Execute shell** and enable a **post build action** instead.
+2. Select **Git Publisher**.
+3. Enable **Push Only if Build Succeeds**.
+4. Enable **Merge Results**.
 
-![alt text](image.png)
+![alt text](images/post-buildactions.png)
+
+1. Under branches, for **branches to push**, input **main**. 
+2. For **Target remote name**, input **origin**.
+
+![alt text](images/branchesforjob2.png)
+
+3. Ensure you have **SSH Agent** enabled and your key selected. It will need this for authentication.
+
+![alt text](images/sshagentselected.png)
 
 4. Build the job and it will work!
 
 ## Setting up Job 3 - Deploy Job
 1. Create a new project, following previous steps such as providing **GitHub** repo links and selecting your **SSH** key.
-2. Enable **SSH Agent** under build environment as well.
+2. Enable **SSH Agent** under build environment as well, with the EC2 instance key selected.
 3. Add a build step with the following commands inside:
 
 ```
-# CD into the app folder
-cd app 
+# Define the IP address of the EC2 instance
+EC2_IP="IP"  
 
-# Install all listed dependencies
-npm install 
+# Copy the 'app' directory to the home directory of the EC2 instance
+scp -r -o StrictHostKeyChecking=no app ubuntu@$EC2_IP:~/  
 
-# Runs the test scripts
-npm test 
+# SSH into the EC2 instance to execute commands remotely
+ssh ubuntu@$EC2_IP <<EOF  
 
-# Prints the current working directory
-pwd 
+# Navigate to the 'app' directory on the EC2 instance
+cd app  
 
-# Scans the SSH host key of the remote server and adds it to the known hosts file
-ssh-keyscan -H AWSINSTANCEIP >> ~/.ssh/known_hosts 
+# Stop all currently running PM2 processes
+pm2 stop all  
 
-# Copies the contents of the current working directory from the Jenkins workspace to the EC2 instance
-scp -i $SSH_KEY -r $(pwd) ubuntu@AWSINSTANCEIP:/home/ubuntu 
+# Install any missing Node.js dependencies for the app
+npm install  
 
-# Logs into the remote EC2 instance and runs multiple commands in a single SSH session
-ssh -i  $SSH_KEY ubuntu@AWSINSTANCEIP 'sudo rsync -a /home/ubuntu/app/ /repo/app/ && cd /repo/app && sudo -E pm2 start app.js' 
+# Start the app using PM2
+pm2 start app.js  
+EOF 
+
 ```
+
+### Manual Set Up
+```
+# Set EC2 instance variables
+EC2_USER="ubuntu"
+EC2_IP="IP"
+
+# CD into app folder
+cd app
+
+# Install dependencies
+npm install
+
+# Add EC2 IP to known_hosts using ssh-keyscan
+ssh-keyscan -H $EC2_IP >> ~/.ssh/known_hosts
+
+# Copy the 'app' folder from Jenkins workspace to EC2 instance, copying recursively the directory and it's entire contents
+scp -r $WORKSPACE/app/ $EC2_USER@$EC2_IP:/home/$EC2_USER
+
+# SSH into EC2 and restart the app using PM2
+ssh $EC2_USER@$EC2_IP << EOF # 
+  sudo rsync -a /home/ubuntu/app/ /repo/app/
+  cd /repo/app
+  sudo -E pm2 restart app.js
+EOF
+```
+
+We use EOF so it's inputted as if we were typing those lines directly into the terminal of the remote machine.
