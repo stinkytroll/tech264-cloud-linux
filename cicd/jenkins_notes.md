@@ -173,4 +173,28 @@ These commands will switch the branch to the main (since we're working in the de
 
 ## Setting up Job 3 - Deploy Job
 1. Create a new project, following previous steps such as providing **GitHub** repo links and selecting your **SSH** key.
-2. 
+2. Enable **SSH Agent** under build environment as well.
+3. Add a build step with the following commands inside:
+
+```
+# CD into the app folder
+cd app 
+
+# Install all listed dependencies
+npm install 
+
+# Runs the test scripts
+npm test 
+
+# Prints the current working directory
+pwd 
+
+# This command scans the SSH host key of the remote server and adds it to the known hosts file
+ssh-keyscan -H AWSINSTANCEIP >> ~/.ssh/known_hosts 
+
+# 
+scp -i $SSH_KEY -r $(pwd) ubuntu@AWSINSTANCEIP:/home/ubuntu 
+
+# 
+ssh -i  $SSH_KEY ubuntu@AWSINSTANCEIP 'sudo rsync -a /home/ubuntu/app/ /repo/app/ && cd /repo/app && sudo -E pm2 start app.js' 
+```
