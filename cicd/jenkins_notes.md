@@ -192,12 +192,12 @@ npm test
 # Prints the current working directory
 pwd 
 
-# This command scans the SSH host key of the remote server and adds it to the known hosts file
+# Scans the SSH host key of the remote server and adds it to the known hosts file
 ssh-keyscan -H AWSINSTANCEIP >> ~/.ssh/known_hosts 
 
-# 
+# Copies the contents of the current working directory from the Jenkins workspace to the EC2 instance
 scp -i $SSH_KEY -r $(pwd) ubuntu@AWSINSTANCEIP:/home/ubuntu 
 
-# 
+# Logs into the remote EC2 instance and runs multiple commands in a single SSH session
 ssh -i  $SSH_KEY ubuntu@AWSINSTANCEIP 'sudo rsync -a /home/ubuntu/app/ /repo/app/ && cd /repo/app && sudo -E pm2 start app.js' 
 ```
