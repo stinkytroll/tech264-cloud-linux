@@ -151,4 +151,26 @@ npm test
 ### --> The GitBash window for the directory
 1. Create dev branch using `git branch dev`.
 2. Switch to the dev branch using `git switch dev`.
-3. Make a change, then perform a `git push` to test the trigger.
+3. Make a change, then perform a `git push` to test the trigger. If this works, a build will activate on **Jenkins** and it will run the build.
+
+## Setting up Job 2 - Merge Job
+1. Create a new project, following previous steps such as providing **GitHub** repo links and selecting your **SSH** key. 
+2. Add a build step, with the following commands inside:
+
+```
+git switch main
+git merge origin/dev
+git push origin main
+```
+
+These commands will switch the branch to the main (since we're working in the dev branch), merge the dev changes to the main branch and then push it to the GitHub repo.
+
+3. Ensure you have **SSH Agent** enabled. It will need this for authentication.
+
+![alt text](image.png)
+
+4. Build the job and it will work!
+
+## Setting up Job 3 - Deploy Job
+1. Create a new project, following previous steps such as providing **GitHub** repo links and selecting your **SSH** key.
+2. 
