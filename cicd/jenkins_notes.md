@@ -158,14 +158,17 @@ npm test
 2. Add a build step, with the following commands inside:
 
 ```
+# Switch the branch to the main (since we're working in the dev branch)
 git switch main
+
+# Merge the dev changes to the main branch
 git merge origin/dev
+
+# Push the changes from local main branch to the GitHub repo
 git push origin main
 ```
 
-These commands will switch the branch to the main (since we're working in the dev branch), merge the dev changes to the main branch and then push it to the GitHub repo.
-
-3. Ensure you have **SSH Agent** enabled. It will need this for authentication.
+1. Ensure you have **SSH Agent** enabled. It will need this for authentication.
 
 ![alt text](image.png)
 
