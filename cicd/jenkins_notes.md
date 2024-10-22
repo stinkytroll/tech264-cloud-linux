@@ -105,7 +105,7 @@ So far, the **Git** section should look like this:
 3. Below that, under **Branches to build**, change it to `*/main`. Later, this'll be `dev`.
 
 ### --> Build Environment
-4. Enable **Provide node and npm bin/ folder to PATH** and specify **NodeJS version 20**. We do this so we can run nodejs and npm commands.
+4. Enable **Provide node and npm bin/ folder to PATH** and specify **NodeJS version 20**. We do this to allow Jenkins to run nodejs and npm commands necessary for testing.
   
 ![alt text](images/providenodenpm.png)
 
@@ -156,21 +156,6 @@ npm test
 
 ## Setting up Job 2 - Merge Job
 1. Create a new project, following previous steps such as providing **GitHub** repo links and selecting your **SSH** key. 
-2. Add a build step, with the following commands inside:
-
-```
-# Switch the branch to the main (since we're working in the dev branch)
-git switch main
-
-# Merge the dev changes to the main branch
-git merge origin/dev
-
-# Push the changes from local main branch to the GitHub repo
-git push origin main
-```
-However... There is a more efficient way to do this using **Git Publisher**, a Jenkins plugin:
-
-1. Remove the **Execute shell** and enable a **post build action** instead.
 2. Select **Git Publisher**.
 3. Enable **Push Only if Build Succeeds**.
 4. Enable **Merge Results**.
