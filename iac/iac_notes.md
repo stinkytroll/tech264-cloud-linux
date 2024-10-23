@@ -1,3 +1,12 @@
+- [What is IaC?](#what-is-iac)
+  - [Benefits of IaC?](#benefits-of-iac)
+  - [When/where to use IaC](#whenwhere-to-use-iac)
+  - [What are the tools available for IaC?](#what-are-the-tools-available-for-iac)
+  - [What is configuration management (CM)?](#what-is-configuration-management-cm)
+  - [What is provisioning of infrastructure? Do CM tools do it?](#what-is-provisioning-of-infrastructure-do-cm-tools-do-it)
+- [What is Ansible and how does it work?](#what-is-ansible-and-how-does-it-work)
+  - [Who is using IaC and Ansible in the industry](#who-is-using-iac-and-ansible-in-the-industry)
+
 # What is IaC?
 Infrastructure as Code is the practice of managing and provisioning infrastructure through code instead of manual processes. It lets infrastructure be defined, deployed and updated using files the machine can read, such as config files or scripts.
 
