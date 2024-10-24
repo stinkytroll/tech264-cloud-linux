@@ -6,6 +6,10 @@
   - [What is provisioning of infrastructure? Do CM tools do it?](#what-is-provisioning-of-infrastructure-do-cm-tools-do-it)
 - [What is Ansible and how does it work?](#what-is-ansible-and-how-does-it-work)
   - [Who is using IaC and Ansible in the industry](#who-is-using-iac-and-ansible-in-the-industry)
+- [What is pull and push configuration management (IaC)?](#what-is-pull-and-push-configuration-management-iac)
+  - [Which tools support push/pull?](#which-tools-support-pushpull)
+  - [Does Terraform use the push or pull configuration?](#does-terraform-use-the-push-or-pull-configuration)
+- [Which is better: push or pull configuration management?](#which-is-better-push-or-pull-configuration-management)
 
 # What is IaC?
 Infrastructure as Code is the practice of managing and provisioning infrastructure through code instead of manual processes. It lets infrastructure be defined, deployed and updated using files the machine can read, such as config files or scripts.
@@ -49,3 +53,18 @@ Ansible is an open-source automation tool used for configuration management, app
 
 ## Who is using IaC and Ansible in the industry
 Tech companies such as Google, Facebook, Netflix and Amazon all use IaC tools to manage their cloud infrastructure and application deployments. Banks, phone service providers, healthcare organisations and retail all use IaC for automation of processes. 
+
+# What is pull and push configuration management (IaC)?
+- **Push Configuration**: The central server sends configuration changes directly to the nodes (e.g., using SSH). Admins push the desired state to each system.
+- **Pull Configuration**: Nodes pull configuration changes from a central repository or server. The nodes periodically check for updates and apply them.
+
+## Which tools support push/pull?
+- **Push**: Ansible, SaltStack (can do both)
+- **Pull**: Puppet, Chef
+
+## Does Terraform use the push or pull configuration?
+Terraform uses a push model. It directly applies configurations to the infrastructure from a central location.
+
+#  Which is better: push or pull configuration management?
+- **Push** is better for small environments, where immediate changes are needed across specific systems.
+- **Pull** is better for larger, distributed environments, as nodes manage their own configurations and ensure continuous compliance.
